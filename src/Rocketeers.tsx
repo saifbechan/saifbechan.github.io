@@ -1,27 +1,32 @@
-import React from "react";
-import Sketch from "react-p5";
+import React from 'react';
+import Sketch from 'react-p5';
 
-import p5Types from "p5";
+import p5Types from 'p5';
 
-interface ComponentProps {
-  rockets: number
+import Mission from './Entities/Mission';
+
+interface MissionProps {
+  rocketeers: number;
 }
 
-const Rocketeers: React.FC<ComponentProps> = (props: ComponentProps) => {
-  let x = 50;
-  const y = 50;
+const Rocketeers: React.FC<MissionProps> = ({ rocketeers }: MissionProps) => {
+  let mission: Mission;
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5.createCanvas(props.rockets, props.rockets).parent(canvasParentRef);
+    p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
+    mission = new Mission({ rocketeers, p5 });
   };
 
   const draw = (p5: p5Types) => {
-    p5.background(0);
-    p5.ellipse(x, y, 70, 70);
-    x += 1;
+    p5.background(42, 61, 113);
+    mission.start();
   };
 
-  return <Sketch draw={draw} setup={setup} />;
+  const windowResized = (p5: p5Types) => {
+    p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+  };
+
+  return <Sketch draw={draw} setup={setup} windowResized={windowResized} />;
 };
 
 export default Rocketeers;

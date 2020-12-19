@@ -4,6 +4,6 @@ import './index.scss';
 import Rocketeers from './Rocketeers';
 import * as serviceWorker from './serviceWorker';
 
-render(<Rocketeers rockets={500} />, document.getElementById('root'));
+render(<Rocketeers rocketeers={25} />, document.getElementById('root'));
 
 serviceWorker.unregister();

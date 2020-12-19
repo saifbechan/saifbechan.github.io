@@ -25,6 +25,7 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
     "comma-dangle": "off",
     "global-require": "off",
     "import-helpers/order-imports": ["error", {
@@ -42,6 +43,7 @@
     "no-multiple-empty-lines": ["error", {
       "max": 1
     }],
+    "object-curly-newline": ["error", "never"],
     "react/destructuring-assignment": ["warn", "always", {
       "ignoreClassFields": true
     }],
