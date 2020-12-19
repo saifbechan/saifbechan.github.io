@@ -7,7 +7,7 @@ interface MissionProps {
   p5: p5Types;
   lifespan: number;
   rocketeers: number;
-  ships: Image[];
+  ship: Image;
 }
 
 class Mission {
@@ -17,13 +17,13 @@ class Mission {
   private readonly pool: Rocket[];
   private readonly p5: p5Types;
   private readonly rocketeers: number;
-  private readonly ships: Image[];
+  private readonly ship: Image;
 
-  constructor({ p5, lifespan, rocketeers, ships }: MissionProps) {
+  constructor({ p5, lifespan, rocketeers, ship }: MissionProps) {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.rocketeers = rocketeers;
-    this.ships = ships;
+    this.ship = ship;
     this.target = new Target({ p5 });
     this.rockets = [];
     this.pool = [];
@@ -32,7 +32,7 @@ class Mission {
         p5,
         lifespan,
         target: this.target,
-        ships,
+        ship,
       });
     }
   }
@@ -60,7 +60,7 @@ class Mission {
         p5: this.p5,
         lifespan: this.lifespan,
         target: this.target,
-        ships: this.ships,
+        ship: this.ship,
         parents: [
           this.p5.random(this.pool).getRoute(),
           this.p5.random(this.pool).getRoute(),

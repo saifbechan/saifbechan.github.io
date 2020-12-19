@@ -7,7 +7,7 @@ interface RocketProps {
   p5: p5Types;
   lifespan: number;
   target: Target;
-  ships: Image[];
+  ship: Image;
   parents?: Vector[];
 }
 
@@ -27,12 +27,12 @@ class Rocket {
   private crashed = false;
   private fitness = 0;
 
-  constructor({ p5, lifespan, target, ships, parents }: RocketProps) {
+  constructor({ p5, lifespan, target, ship, parents }: RocketProps) {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.target = target;
     this.route = new Route({ p5, lifespan, parents });
-    [this.ship] = ships;
+    this.ship = ship;
     this.pos = p5.createVector(p5.width / 2, p5.height - 10);
     this.vel = p5.createVector();
     this.acc = p5.createVector();
@@ -104,11 +104,27 @@ class Rocket {
   show(): void {
     if (this.completed || this.crashed) return;
     this.p5.push();
+
     this.p5.translate(this.pos.x, this.pos.y);
     this.p5.rotate(this.vel.heading());
+
+    this.showThruster();
+    this.showRocket();
+
+    this.p5.pop();
+  }
+
+  private showThruster(): void {
+    this.p5.noStroke();
+    this.p5.fill(255, 185, 0);
+    this.p5.ellipse(this.p5.random([-6, -8]), 0, 18, 6);
+    this.p5.fill(255, 255, 0);
+    this.p5.ellipse(this.p5.random([-6, -8]), 0, 14, 8);
+  }
+
+  private showRocket(): void {
     this.p5.imageMode(this.p5.CENTER);
     this.p5.image(this.ship, 0, 0);
-    this.p5.pop();
   }
 }
 
