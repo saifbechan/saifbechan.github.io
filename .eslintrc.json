@@ -44,7 +44,9 @@
       "max": 1
     }],
     "object-curly-newline": ["error", { "multiline": true }],
-    "operator-linebreak": ["error", "after"],
+    "operator-linebreak": "off",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": ["error", "below"],
     "react/destructuring-assignment": ["warn", "always", {
       "ignoreClassFields": true
     }],

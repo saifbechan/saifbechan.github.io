@@ -1,17 +1,29 @@
 import p5Types, { Vector } from 'p5';
 
-class Route {
-  private readonly length: number = 400;
-  private readonly maxforce: number = 0.2;
+interface RouteProps {
+  p5: p5Types;
+  lifespan: number;
+  parents?: Vector[];
+}
 
+class Route {
+  private readonly p5: p5Types;
+  private readonly lifespan: number;
   private readonly steps: Vector[];
 
-  constructor(p5: p5Types) {
-    this.steps = [];
+  private readonly maxforce: number = 0.1;
+  private readonly mutationRate: number = 0.01;
 
-    const rndm = Vector.random2D();
-    for (let i = 0; i < this.length; i += 1) {
-      this.steps[i] = p5.createVector(rndm.x, rndm.y);
+  constructor({ p5, lifespan, parents }: RouteProps) {
+    this.p5 = p5;
+    this.lifespan = lifespan;
+    this.steps = [];
+    for (let i = 0; i < this.lifespan; i += 1) {
+      const step =
+        parents && p5.random(1) < this.mutationRate
+          ? this.p5.random(parents).getStep(i)
+          : Vector.random2D();
+      this.steps[i] = this.p5.createVector(step.x, step.y);
       this.steps[i].setMag(this.maxforce);
     }
   }

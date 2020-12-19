@@ -5,17 +5,19 @@ import Target from './Target';
 
 interface RocketProps {
   p5: p5Types;
-  index: number;
+  lifespan: number;
   target: Target;
   ships: Image;
+  parents?: Vector[];
 }
 
 class Rocket {
   private readonly p5: p5Types;
-  private readonly index: number;
+  private readonly lifespan: number;
   private readonly target: Target;
-  private readonly route: Route;
   private readonly ships: Image;
+
+  private readonly route: Route;
 
   private pos: Vector;
   private readonly vel: Vector;
@@ -25,13 +27,13 @@ class Rocket {
   private crashed = false;
   private fitness = 0;
 
-  constructor({ p5, index, target, ships }: RocketProps) {
+  constructor({ p5, lifespan, target, ships, parents }: RocketProps) {
     this.p5 = p5;
-    this.index = index;
+    this.lifespan = lifespan;
     this.target = target;
-    this.route = new Route(p5);
+    this.route = new Route({ p5, lifespan, parents });
     this.ships = ships;
-    this.pos = p5.createVector(p5.width / 2, p5.height);
+    this.pos = p5.createVector(p5.width / 2, p5.height - 10);
     this.vel = p5.createVector();
     this.acc = p5.createVector();
   }
@@ -51,7 +53,7 @@ class Rocket {
     );
   }
 
-  private calcFitness(): void {
+  setFitness(): void {
     const { pos, target } = this;
     const distanceToTarget = this.p5.dist(pos.x, pos.y, target.x, target.y);
     this.fitness = this.p5.map(
@@ -69,19 +71,28 @@ class Rocket {
     }
   }
 
-  update(): void {
-    const { route, target } = this;
+  getFitness(): number {
+    return this.fitness;
+  }
 
+  normalizeFitness(maxfit: number): void {
+    this.fitness /= maxfit;
+  }
+
+  getRoute(): Route {
+    return this.route;
+  }
+
+  update(step: number): void {
+    const { route, target } = this;
     if (this.hasCompleted()) {
       this.completed = true;
       this.pos = this.p5.createVector(target.x, target.y);
     }
-
     if (this.hasCrashed()) {
       this.crashed = true;
     }
-
-    this.acc.add(route.getStep(this.index));
+    this.acc.add(route.getStep(step));
     if (!this.completed && !this.crashed) {
       this.vel.add(this.acc);
       this.pos.add(this.vel);
@@ -91,6 +102,7 @@ class Rocket {
   }
 
   show(): void {
+    if (this.completed || this.crashed) return;
     this.p5.push();
     this.p5.translate(this.pos.x, this.pos.y);
     this.p5.rotate(this.vel.heading());
