@@ -15,12 +15,12 @@ const Rocketeers: React.FC<MissionProps> = ({
   rocketeers,
 }: MissionProps) => {
   let mission: Mission;
-  let ships: Image;
+  let ships: Image[];
 
   let step = 0;
 
   const preload = (p5: p5Types) => {
-    ships = p5.loadImage('ship.png');
+    ships = [p5.loadImage('ship.png'), p5.loadImage('ship-white.png')];
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {

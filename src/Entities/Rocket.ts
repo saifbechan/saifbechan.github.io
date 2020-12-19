@@ -7,7 +7,7 @@ interface RocketProps {
   p5: p5Types;
   lifespan: number;
   target: Target;
-  ships: Image;
+  ships: Image[];
   parents?: Vector[];
 }
 
@@ -15,7 +15,7 @@ class Rocket {
   private readonly p5: p5Types;
   private readonly lifespan: number;
   private readonly target: Target;
-  private readonly ships: Image;
+  private readonly ship: Image;
 
   private readonly route: Route;
 
@@ -32,7 +32,7 @@ class Rocket {
     this.lifespan = lifespan;
     this.target = target;
     this.route = new Route({ p5, lifespan, parents });
-    this.ships = ships;
+    [this.ship] = ships;
     this.pos = p5.createVector(p5.width / 2, p5.height - 10);
     this.vel = p5.createVector();
     this.acc = p5.createVector();
@@ -107,7 +107,7 @@ class Rocket {
     this.p5.translate(this.pos.x, this.pos.y);
     this.p5.rotate(this.vel.heading());
     this.p5.imageMode(this.p5.CENTER);
-    this.p5.image(this.ships, 0, 0);
+    this.p5.image(this.ship, 0, 0);
     this.p5.pop();
   }
 }

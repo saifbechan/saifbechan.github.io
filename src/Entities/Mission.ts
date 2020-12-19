@@ -7,7 +7,7 @@ interface MissionProps {
   p5: p5Types;
   lifespan: number;
   rocketeers: number;
-  ships: Image;
+  ships: Image[];
 }
 
 class Mission {
@@ -17,7 +17,7 @@ class Mission {
   private readonly pool: Rocket[];
   private readonly p5: p5Types;
   private readonly rocketeers: number;
-  private readonly ships: Image;
+  private readonly ships: Image[];
 
   constructor({ p5, lifespan, rocketeers, ships }: MissionProps) {
     this.p5 = p5;
