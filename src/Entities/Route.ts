@@ -12,7 +12,7 @@ class Route {
   private readonly steps: Vector[];
 
   private readonly maxforce: number = 0.1;
-  private readonly mutationRate: number = 0.01;
+  private readonly mutationRate: number = 0.7;
 
   constructor({ p5, lifespan, parents }: RouteProps) {
     this.p5 = p5;
