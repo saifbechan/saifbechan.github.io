@@ -43,7 +43,8 @@
     "no-multiple-empty-lines": ["error", {
       "max": 1
     }],
-    "object-curly-newline": ["error", "never"],
+    "object-curly-newline": ["error", { "multiline": true }],
+    "operator-linebreak": ["error", "after"],
     "react/destructuring-assignment": ["warn", "always", {
       "ignoreClassFields": true
     }],

@@ -1,7 +1,7 @@
 import React from 'react';
 import Sketch from 'react-p5';
 
-import p5Types from 'p5';
+import p5Types, { Image } from 'p5';
 
 import Mission from './Entities/Mission';
 
@@ -11,10 +11,15 @@ interface MissionProps {
 
 const Rocketeers: React.FC<MissionProps> = ({ rocketeers }: MissionProps) => {
   let mission: Mission;
+  let ships: Image;
+
+  const preload = (p5: p5Types) => {
+    ships = p5.loadImage('ship.png');
+  };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
-    mission = new Mission({ rocketeers, p5 });
+    mission = new Mission({ rocketeers, p5, ships });
   };
 
   const draw = (p5: p5Types) => {
@@ -26,7 +31,14 @@ const Rocketeers: React.FC<MissionProps> = ({ rocketeers }: MissionProps) => {
     p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
   };
 
-  return <Sketch draw={draw} setup={setup} windowResized={windowResized} />;
+  return (
+    <Sketch
+      draw={draw}
+      preload={preload}
+      setup={setup}
+      windowResized={windowResized}
+    />
+  );
 };
 
 export default Rocketeers;
