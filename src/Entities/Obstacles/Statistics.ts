@@ -5,6 +5,7 @@ import { Obstacle, ObstacleProps } from '../../Interfaces/Obstacle';
 export default class Statistics implements Obstacle {
   private p5: p5Types;
   private pos: Vector;
+
   constructor({ p5 }: ObstacleProps) {
     this.p5 = p5;
     this.pos = p5.createVector(20, p5.height - 20);

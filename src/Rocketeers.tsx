@@ -26,12 +26,14 @@ const Rocketeers: FC<MissionProps> = ({
   const preload = (p5: p5Types) => {
     images.set('ship', p5.loadImage('ship.png'));
     images.set('planet-orange', p5.loadImage('planet-orange.png'));
+    images.set('ai-rocketeers', p5.loadImage('ai-rocketeers.png'));
+    images.set('astronout', p5.loadImage('astronout.png'));
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
 
-    obstacles.push(new Title({ p5 }));
+    obstacles.push(new Title({ p5, image: images.get('ai-rocketeers') }));
     obstacles.push(new Statistics({ p5 }));
     mission = new Mission({ p5, lifespan, rocketeers, images, obstacles });
   };
