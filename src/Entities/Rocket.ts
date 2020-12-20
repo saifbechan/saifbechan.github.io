@@ -102,9 +102,11 @@ class Rocket {
       this.completed = true;
       this.pos = this.p5.createVector(target.x, target.y);
       this.endtime = step;
+      return;
     }
     if (this.hasCrashed()) {
       this.crashed = true;
+      return;
     }
     this.acc.add(route.getStep(step));
     if (!this.completed && !this.crashed) {
@@ -113,6 +115,10 @@ class Rocket {
       this.acc.mult(0);
       this.vel.limit(4);
     }
+  }
+
+  setCrashed(): void {
+    this.crashed = true;
   }
 
   show(): void {
@@ -149,6 +155,9 @@ class Rocket {
   }
   getFitness(): number {
     return this.fitness;
+  }
+  getPosition(): Vector {
+    return this.pos;
   }
 }
 

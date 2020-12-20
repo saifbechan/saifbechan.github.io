@@ -46,7 +46,7 @@
     "object-curly-newline": ["error", { "multiline": true }],
     "operator-linebreak": "off",
     "function-paren-newline": "off",
-    "implicit-arrow-linebreak": ["error", "below"],
+    "implicit-arrow-linebreak": "off",
     "react/destructuring-assignment": ["warn", "always", {
       "ignoreClassFields": true
     }],

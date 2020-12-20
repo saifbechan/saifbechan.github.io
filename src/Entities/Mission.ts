@@ -1,5 +1,6 @@
 import p5Types, { Image } from 'p5';
 
+import { Obstacle } from '../Interfaces/Obstacle';
 import Rocket from './Rocket';
 import Target from './Target';
 
@@ -8,6 +9,7 @@ interface MissionProps {
   lifespan: number;
   rocketeers: number;
   images: Map<string, Image>;
+  obstacles: Obstacle[];
 }
 
 class Mission {
@@ -17,15 +19,17 @@ class Mission {
   private readonly images: Map<string, Image>;
 
   private readonly target: Target;
+  private readonly obstacles: Obstacle[];
 
   private readonly rockets: Rocket[] = [];
   private previous: Rocket[] = [];
 
-  constructor({ p5, lifespan, rocketeers, images }: MissionProps) {
+  constructor({ p5, lifespan, rocketeers, images, obstacles }: MissionProps) {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.rocketeers = rocketeers;
     this.images = images;
+    this.obstacles = obstacles;
 
     this.target = new Target({ p5, planet: images.get('planet-orange') });
 
@@ -82,8 +86,16 @@ class Mission {
 
   run(step: number): void {
     this.target.show();
-    this.rockets.forEach((rocket) => {
+
+    this.obstacles.forEach((obstacle: Obstacle) => obstacle.render());
+
+    this.rockets.forEach((rocket: Rocket) => {
       rocket.update(step);
+      this.obstacles.forEach((obstacle: Obstacle) => {
+        if (obstacle.gotHit && obstacle.gotHit(rocket)) {
+          rocket.setCrashed();
+        }
+      });
       rocket.show();
     });
   }
