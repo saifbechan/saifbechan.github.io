@@ -40,15 +40,20 @@ class Mission {
 
   evaluate(): void {
     let maxfit = 0;
+    let fastestRocket = Infinity;
     this.previous = [];
-    this.rockets.forEach((rocket) => {
+    this.rockets.forEach((rocket: Rocket) => {
       rocket.setFitness();
       maxfit = Math.max(maxfit, rocket.getFitness());
+      fastestRocket = Math.min(fastestRocket, rocket.getEndTime());
     });
-    this.rockets.forEach((rocket) => {
+    this.rockets.forEach((rocket: Rocket) => {
+      rocket.bonusFitness(fastestRocket);
+    });
+    this.rockets.forEach((rocket: Rocket) => {
       rocket.normalizeFitness(maxfit);
     });
-    this.rockets.forEach((rocket) => {
+    this.rockets.forEach((rocket: Rocket) => {
       const numberOfTimesInPool = rocket.getFitness() * 100;
       for (let j = 0; j < numberOfTimesInPool; j += 1) {
         this.previous.push(rocket);

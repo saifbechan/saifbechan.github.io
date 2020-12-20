@@ -26,6 +26,7 @@ class Rocket {
   private completed = false;
   private crashed = false;
   private fitness = 0;
+  private endtime = Infinity;
 
   constructor({ p5, lifespan, target, ship, parents }: RocketProps) {
     this.p5 = p5;
@@ -71,23 +72,28 @@ class Rocket {
     }
   }
 
-  getFitness(): number {
-    return this.fitness;
+  bonusFitness(fastestRocket: number): void {
+    if (fastestRocket < Infinity && fastestRocket + 10 > this.endtime) {
+      this.fitness *= 2;
+    }
+
+    if (fastestRocket < Infinity && fastestRocket === this.endtime) {
+      this.fitness *= 2;
+    }
   }
 
   normalizeFitness(maxfit: number): void {
     this.fitness /= maxfit;
   }
 
-  getRoute(): Route {
-    return this.route;
-  }
-
   update(step: number): void {
+    if (this.completed || this.crashed) return;
+
     const { route, target } = this;
     if (this.hasCompleted()) {
       this.completed = true;
       this.pos = this.p5.createVector(target.x, target.y);
+      this.endtime = step;
     }
     if (this.hasCrashed()) {
       this.crashed = true;
@@ -125,6 +131,16 @@ class Rocket {
   private showRocket(): void {
     this.p5.imageMode(this.p5.CENTER);
     this.p5.image(this.ship, 0, 0);
+  }
+
+  getEndTime(): number {
+    return this.endtime;
+  }
+  getRoute(): Route {
+    return this.route;
+  }
+  getFitness(): number {
+    return this.fitness;
   }
 }
 
