@@ -137,9 +137,9 @@ class Rocket {
   private showThruster(): void {
     this.p5.noStroke();
     this.p5.fill(255, 185, 0);
-    this.p5.ellipse(this.p5.random([-6, -8]), 0, 18, 6);
+    this.p5.ellipse(this.p5.random([-6, -8]), 0, 16, 4);
     this.p5.fill(255, 255, 0);
-    this.p5.ellipse(this.p5.random([-6, -8]), 0, 14, 8);
+    this.p5.ellipse(this.p5.random([-6, -8]), 0, 12, 6);
   }
 
   private showRocket(): void {
