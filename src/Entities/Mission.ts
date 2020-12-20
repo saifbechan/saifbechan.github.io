@@ -7,33 +7,35 @@ interface MissionProps {
   p5: p5Types;
   lifespan: number;
   rocketeers: number;
-  ship: Image;
+  images: Map<string, Image>;
 }
 
 class Mission {
-  private readonly lifespan: number;
-  private readonly target: Target;
-  private readonly rockets: Rocket[];
   private readonly p5: p5Types;
+  private readonly lifespan: number;
   private readonly rocketeers: number;
-  private readonly ship: Image;
+  private readonly images: Map<string, Image>;
 
-  private previous: Rocket[];
+  private readonly target: Target;
 
-  constructor({ p5, lifespan, rocketeers, ship }: MissionProps) {
+  private readonly rockets: Rocket[] = [];
+  private previous: Rocket[] = [];
+
+  constructor({ p5, lifespan, rocketeers, images }: MissionProps) {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.rocketeers = rocketeers;
-    this.ship = ship;
-    this.target = new Target({ p5 });
-    this.rockets = [];
+    this.images = images;
+
+    this.target = new Target({ p5, planet: images.get('planet-orange') });
+
     this.previous = [];
     for (let index = 0; index < rocketeers; index += 1) {
       this.rockets[index] = new Rocket({
         p5,
         lifespan,
         target: this.target,
-        ship,
+        ship: images.get('ship'),
       });
     }
   }
@@ -54,6 +56,8 @@ class Mission {
       rocket.normalizeFitness(maxfit);
     });
     this.rockets.forEach((rocket: Rocket) => {
+      if (rocket.getFitness() < 0.5) return;
+
       const numberOfTimesInPool = rocket.getFitness() * 100;
       for (let j = 0; j < numberOfTimesInPool; j += 1) {
         this.previous.push(rocket);
@@ -67,7 +71,7 @@ class Mission {
         p5: this.p5,
         lifespan: this.lifespan,
         target: this.target,
-        ship: this.ship,
+        ship: this.images.get('ship'),
         parents: [
           this.p5.random(this.previous).getRoute(),
           this.p5.random(this.previous).getRoute(),

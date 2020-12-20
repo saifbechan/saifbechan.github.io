@@ -1,7 +1,8 @@
-import p5Types from 'p5';
+import p5Types, { Image } from 'p5';
 
 interface TargetProps {
   p5: p5Types;
+  planet?: Image;
 }
 
 class Target {
@@ -9,17 +10,18 @@ class Target {
 
   private readonly posX: number;
   private readonly posY: number;
+  private readonly planet: Image;
 
-  constructor({ p5 }: TargetProps) {
+  constructor({ p5, planet = new Image() }: TargetProps) {
     this.p5 = p5;
     this.posX = p5.width / 2;
     this.posY = 50;
+    this.planet = planet;
   }
 
   show(): void {
-    this.p5.fill(248, 229, 91);
-    this.p5.noStroke();
-    this.p5.ellipse(this.posX, this.posY, 16, 16);
+    this.p5.imageMode(this.p5.CENTER);
+    this.p5.image(this.planet, this.posX, this.posY);
   }
 
   get y(): number {

@@ -7,7 +7,7 @@ interface RocketProps {
   p5: p5Types;
   lifespan: number;
   target: Target;
-  ship: Image;
+  ship?: Image;
   parents?: Vector[];
 }
 
@@ -28,21 +28,29 @@ class Rocket {
   private fitness = 0;
   private endtime = Infinity;
 
-  constructor({ p5, lifespan, target, ship, parents }: RocketProps) {
+  constructor({
+    p5,
+    lifespan,
+    target,
+    ship = new Image(),
+    parents,
+  }: RocketProps) {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.target = target;
-    this.route = new Route({ p5, lifespan, parents });
     this.ship = ship;
+
     this.pos = p5.createVector(p5.width / 2, p5.height - 10);
     this.vel = p5.createVector();
     this.acc = p5.createVector();
+
+    this.route = new Route({ p5, lifespan, parents });
   }
 
   private hasCompleted(): boolean {
     const { pos, target } = this;
     const distanceToTarget = this.p5.dist(pos.x, pos.y, target.x, target.y);
-    return distanceToTarget < 10;
+    return distanceToTarget < 30;
   }
 
   private hasCrashed(): boolean {
