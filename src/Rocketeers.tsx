@@ -4,6 +4,7 @@ import Sketch from 'react-p5';
 import p5Types, { Image } from 'p5';
 
 import Mission from './Entities/Mission';
+import Statistics from './Entities/Obstacles/Statistics';
 import Title from './Entities/Obstacles/Title';
 import { Obstacle } from './Interfaces/Obstacle';
 
@@ -31,6 +32,7 @@ const Rocketeers: FC<MissionProps> = ({
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
 
     obstacles.push(new Title({ p5 }));
+    obstacles.push(new Statistics({ p5 }));
     mission = new Mission({ p5, lifespan, rocketeers, images, obstacles });
   };
 
