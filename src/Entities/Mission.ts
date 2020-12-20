@@ -14,10 +14,11 @@ class Mission {
   private readonly lifespan: number;
   private readonly target: Target;
   private readonly rockets: Rocket[];
-  private readonly pool: Rocket[];
   private readonly p5: p5Types;
   private readonly rocketeers: number;
   private readonly ship: Image;
+
+  private previous: Rocket[];
 
   constructor({ p5, lifespan, rocketeers, ship }: MissionProps) {
     this.p5 = p5;
@@ -26,7 +27,7 @@ class Mission {
     this.ship = ship;
     this.target = new Target({ p5 });
     this.rockets = [];
-    this.pool = [];
+    this.previous = [];
     for (let index = 0; index < rocketeers; index += 1) {
       this.rockets[index] = new Rocket({
         p5,
@@ -39,6 +40,7 @@ class Mission {
 
   evaluate(): void {
     let maxfit = 0;
+    this.previous = [];
     this.rockets.forEach((rocket) => {
       rocket.setFitness();
       maxfit = Math.max(maxfit, rocket.getFitness());
@@ -49,7 +51,7 @@ class Mission {
     this.rockets.forEach((rocket) => {
       const numberOfTimesInPool = rocket.getFitness() * 100;
       for (let j = 0; j < numberOfTimesInPool; j += 1) {
-        this.pool.push(rocket);
+        this.previous.push(rocket);
       }
     });
   }
@@ -62,8 +64,8 @@ class Mission {
         target: this.target,
         ship: this.ship,
         parents: [
-          this.p5.random(this.pool).getRoute(),
-          this.p5.random(this.pool).getRoute(),
+          this.p5.random(this.previous).getRoute(),
+          this.p5.random(this.previous).getRoute(),
         ],
       });
     }

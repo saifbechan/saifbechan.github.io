@@ -5,7 +5,7 @@ import Rocketeers from './Rocketeers';
 import * as serviceWorker from './serviceWorker';
 
 render(
-  <Rocketeers lifespan={400} rocketeers={25} />,
+  <Rocketeers lifespan={600} rocketeers={100} />,
   document.getElementById('root')
 );
 
