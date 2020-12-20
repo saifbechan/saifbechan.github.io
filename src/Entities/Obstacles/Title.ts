@@ -1,5 +1,6 @@
 import p5Types, { Vector } from 'p5';
 
+import { getViewport, Viewport } from '../../Helpers/viewport';
 import { Obstacle, ObstacleProps } from '../../Interfaces/Obstacle';
 import Rocket from '../Rocket';
 
@@ -7,35 +8,45 @@ export default class Title implements Obstacle {
   private readonly p5: p5Types;
   private readonly pos: Vector;
 
-  private height = 32;
+  private readonly height;
   private width = 0;
 
   constructor({ p5 }: ObstacleProps) {
     this.p5 = p5;
     this.pos = p5.createVector(p5.width / 2, 300);
+
+    switch (getViewport(p5.width)) {
+      case Viewport.XS:
+        this.height = 32;
+        break;
+      case Viewport.SM:
+        this.height = 48;
+        break;
+      case Viewport.MD:
+        this.height = 64;
+        break;
+      default:
+        this.height = 78;
+    }
   }
 
   gotHit(rocket: Rocket): boolean {
     const rocketPosition = rocket.getPosition();
-
-    if (
+    return (
       rocketPosition.x > this.pos.x - this.width / 2 &&
       rocketPosition.x < this.pos.x + this.width / 2 &&
       rocketPosition.y > this.pos.y - this.height / 2 &&
       rocketPosition.y < this.pos.y + this.height / 2
-    ) {
-      return true;
-    }
-
-    return this.width === Infinity;
+    );
   }
 
   render(): void {
-    const title = 'saifbechan.com';
+    const title = 'ai rocketeers';
 
+    this.p5.textFont('Bungee Outline');
     this.p5.textAlign(this.p5.CENTER);
     this.p5.textSize(this.height);
-    this.p5.fill(0, 102, 153);
+    this.p5.fill(255);
     this.p5.text(title, this.pos.x, this.pos.y);
 
     this.width = Math.floor(this.p5.textWidth(title));

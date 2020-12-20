@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import Sketch from 'react-p5';
 
 import p5Types, { Image } from 'p5';
@@ -12,7 +12,7 @@ interface MissionProps {
   rocketeers: number;
 }
 
-const Rocketeers: React.FC<MissionProps> = ({
+const Rocketeers: FC<MissionProps> = ({
   lifespan,
   rocketeers,
 }: MissionProps) => {
@@ -31,12 +31,10 @@ const Rocketeers: React.FC<MissionProps> = ({
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
 
     obstacles.push(new Title({ p5 }));
-
     mission = new Mission({ p5, lifespan, rocketeers, images, obstacles });
   };
 
   const draw = (p5: p5Types) => {
-    // p5.background(42, 61, 113);
     p5.background(8, 51, 73);
     mission.run(step);
 
@@ -48,8 +46,8 @@ const Rocketeers: React.FC<MissionProps> = ({
     }
   };
 
-  const windowResized = (p5: p5Types) => {
-    p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+  const windowResized = () => {
+    window.location.reload();
   };
 
   return (
