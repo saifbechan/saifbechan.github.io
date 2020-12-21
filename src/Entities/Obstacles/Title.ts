@@ -1,7 +1,7 @@
 import p5Types, { Image, Vector } from 'p5';
 
 import { getViewport, Viewport } from '../../Helpers/Viewport';
-import { Obstacle, ObstacleProps } from './Obstacle.interface';
+import { Obstacle } from './Obstacle.interface';
 
 export default class Title implements Obstacle {
   private readonly p5: p5Types;
@@ -12,9 +12,9 @@ export default class Title implements Obstacle {
   private readonly height;
   private width = 0;
 
-  constructor({ p5, image }: ObstacleProps) {
+  constructor(p5: p5Types, image: Image = p5.createImage(1, 1)) {
     this.p5 = p5;
-    this.image = image || p5.createImage(1, 1);
+    this.image = image;
     this.pos = p5.createVector(p5.width / 2, 300);
 
     switch (getViewport(p5.width)) {

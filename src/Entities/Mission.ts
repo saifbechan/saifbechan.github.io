@@ -1,5 +1,6 @@
 import p5Types, { Image } from 'p5';
 
+import { MissionStatistics } from '../MissionStatistics.type';
 import Instructions from './Instructions';
 import { Obstacle } from './Obstacles/Obstacle.interface';
 import Rocket from './Rocket';
@@ -7,8 +8,9 @@ import Rocketeer from './Rocketeer';
 import Target from './Target';
 
 export default class Mission {
-  private readonly targets: Target[];
-  private readonly obstacles: Obstacle[];
+  private readonly p5: p5Types;
+  private readonly lifespan: number;
+  private readonly ship: Image;
 
   private readonly rocketeers: Map<number, Rocketeer> = new Map<
     number,
@@ -20,33 +22,50 @@ export default class Mission {
   >();
   private champion: Instructions | undefined;
 
-  constructor(targets: Target[], obstacles: Obstacle[]) {
-    this.obstacles = obstacles;
-    this.targets = targets;
+  private statistics: MissionStatistics;
+
+  constructor(
+    p5: p5Types,
+    lifespan: number,
+    ship: Image = p5.createImage(1, 1)
+  ) {
+    this.p5 = p5;
+    this.lifespan = lifespan;
+    this.ship = ship;
+    this.statistics = { generation: 0 };
   }
 
-  init(p5: p5Types, lifespan: number, rocketeers: number, ship: Image): void {
+  init(rocketeers: number, obstacles: Obstacle[], targets: Target[]): void {
+    this.statistics = {
+      ...this.statistics,
+      generation: (this.statistics.generation += 1),
+    };
     for (let rocketeer = 0; rocketeer < rocketeers; rocketeer += 1) {
       this.rocketeers.set(
         rocketeer,
         new Rocketeer(
-          this.targets,
-          this.obstacles,
+          targets,
+          obstacles,
           new Rocket({
-            p5,
-            ship,
+            p5: this.p5,
+            ship: this.ship,
           }),
-          new Instructions(p5, lifespan, this.instructions, this.champion)
+          new Instructions(
+            this.p5,
+            this.lifespan,
+            this.instructions,
+            this.champion
+          )
         )
       );
     }
     this.instructions.clear();
   }
 
-  evaluate(p5: p5Types, lifespan: number): void {
+  evaluate(): void {
     let maxfit = 0;
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
-      const fitness = rocketeer.calcFitness(p5, lifespan);
+      const fitness = rocketeer.calcFitness(this.p5, this.lifespan);
       if (fitness > maxfit) {
         maxfit = fitness;
         this.champion = rocketeer.getInstructions();
@@ -67,12 +86,12 @@ export default class Mission {
   }
 
   run(step: number): void {
-    // TODO refactor to use renderable objects
-    this.targets.forEach((target: Target) => target.render());
-    this.obstacles.forEach((obstacle: Obstacle) => obstacle.render());
-
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       rocketeer.update(step);
     });
+  }
+
+  getStatistics(): MissionStatistics {
+    return this.statistics;
   }
 }

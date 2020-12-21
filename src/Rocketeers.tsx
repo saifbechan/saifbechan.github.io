@@ -5,9 +5,9 @@ import p5Types, { Image } from 'p5';
 
 import Mission from './Entities/Mission';
 import { Obstacle } from './Entities/Obstacles/Obstacle.interface';
-import Statistics from './Entities/Obstacles/Statistics';
 import Title from './Entities/Obstacles/Title';
 import Target from './Entities/Target';
+import Statistics from './Layout/Statistics';
 
 interface MissionProps {
   lifespan: number;
@@ -19,7 +19,7 @@ const Rocketeers: FC<MissionProps> = ({
   rocketeers,
 }: MissionProps) => {
   let mission: Mission;
-  let ship: Image;
+  let statistics: Statistics;
 
   const images: Map<string, Image> = new Map<string, Image>();
   const obstacles: Obstacle[] = [];
@@ -38,32 +38,37 @@ const Rocketeers: FC<MissionProps> = ({
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
 
     targets.push(
-      new Target({
+      new Target(
         p5,
-        planet: images.get('planet-orange'),
-        pos: p5.createVector(p5.width / 2, 50),
-        diameter: 10,
-      })
+        p5.createVector(p5.width / 2, 50),
+        10,
+        images.get('planet-orange')
+      )
     );
+    obstacles.push(new Title(p5, images.get('ai-rocketeers')));
 
-    obstacles.push(new Title({ p5, image: images.get('ai-rocketeers') }));
-    obstacles.push(new Statistics({ p5 }));
+    mission = new Mission(p5, lifespan, images.get('ship'));
+    mission.init(rocketeers, obstacles, targets);
 
-    ship = images.get('ship') || p5.createImage(1, 1);
-    mission = new Mission(targets, obstacles);
-    mission.init(p5, lifespan, rocketeers, ship);
+    statistics = new Statistics(p5);
   };
 
   const draw = (p5: p5Types) => {
     p5.background(8, 51, 73);
+
+    targets.forEach((target: Target) => target.render());
+    obstacles.forEach((obstacle: Obstacle) => obstacle.render());
+
     mission.run(step);
 
     step += 1;
     if (step === lifespan) {
-      mission.evaluate(p5, lifespan);
-      mission.init(p5, lifespan, rocketeers, ship);
+      mission.evaluate();
+      mission.init(rocketeers, obstacles, targets);
       step = 0;
     }
+
+    statistics.render(p5, mission.getStatistics());
   };
 
   const windowResized = () => {
