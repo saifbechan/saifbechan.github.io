@@ -1,9 +1,7 @@
-import p5Types, { Image } from 'p5';
-
-import Rocket from '../Entities/Rocket';
+import p5Types, { Image, Vector } from 'p5';
 
 export interface Obstacle {
-  gotHit?(rocket: Rocket): boolean;
+  gothit?(position: Vector): boolean;
   render(): void;
 }
 

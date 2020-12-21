@@ -1,8 +1,7 @@
 import p5Types, { Image, Vector } from 'p5';
 
-import { getViewport, Viewport } from '../../Helpers/viewport';
-import { Obstacle, ObstacleProps } from '../../Interfaces/Obstacle';
-import Rocket from '../Rocket';
+import { getViewport, Viewport } from '../../Helpers/Viewport';
+import { Obstacle, ObstacleProps } from './Obstacle.interface';
 
 export default class Title implements Obstacle {
   private readonly p5: p5Types;
@@ -16,7 +15,7 @@ export default class Title implements Obstacle {
   constructor({ p5, image }: ObstacleProps) {
     this.p5 = p5;
     this.image = image || p5.createImage(1, 1);
-    this.pos = p5.createVector(p5.width / 2, 400);
+    this.pos = p5.createVector(p5.width / 2, 300);
 
     switch (getViewport(p5.width)) {
       case Viewport.XS:
@@ -35,13 +34,12 @@ export default class Title implements Obstacle {
     this.scale = (this.height / 5) * 4;
   }
 
-  gotHit(rocket: Rocket): boolean {
-    const rocketPosition = rocket.getPosition();
+  gothit(position: Vector): boolean {
     return (
-      rocketPosition.x > this.pos.x - this.width / 2 &&
-      rocketPosition.x < this.pos.x + this.width / 2 &&
-      rocketPosition.y > this.pos.y - this.scale &&
-      rocketPosition.y < this.pos.y + 10
+      position.x > this.pos.x - this.width / 2 &&
+      position.x < this.pos.x + this.width / 2 &&
+      position.y > this.pos.y - this.scale &&
+      position.y < this.pos.y + 10
     );
   }
 

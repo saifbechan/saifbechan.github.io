@@ -1,6 +1,6 @@
 import p5Types, { Vector } from 'p5';
 
-import { Obstacle, ObstacleProps } from '../../Interfaces/Obstacle';
+import { Obstacle, ObstacleProps } from './Obstacle.interface';
 
 export default class Statistics implements Obstacle {
   private p5: p5Types;
