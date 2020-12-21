@@ -19,17 +19,20 @@ export default class Rocketeer {
   private crashed = 0;
   private reached = 0;
   private fitness = 0;
+  private readonly champion;
 
   constructor(
     targets: Target[],
     obstacles: Obstacle[],
     rocket: Rocket,
-    instructions: Instructions
+    instructions: Instructions,
+    champion: boolean
   ) {
     this.targets = targets;
     this.obstacles = obstacles;
     this.rocket = rocket;
     this.instructions = instructions;
+    this.champion = champion;
   }
 
   getFitness(): number {
@@ -85,6 +88,6 @@ export default class Rocketeer {
       this.journey.set(index, { distance, reached: distance <= 0 });
     });
 
-    this.rocket.render();
+    this.rocket.render(this.champion);
   }
 }

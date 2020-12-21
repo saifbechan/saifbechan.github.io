@@ -10,7 +10,7 @@ import Target from './Target';
 export default class Mission {
   private readonly p5: p5Types;
   private readonly lifespan: number;
-  private readonly ship: Image;
+  private readonly ships: Map<string, Image>;
 
   private readonly rocketeers: Map<number, Rocketeer> = new Map<
     number,
@@ -20,18 +20,14 @@ export default class Mission {
     number,
     Instructions
   >();
-  private champion: Instructions | undefined;
+  private champion: Rocketeer | undefined;
 
   private statistics: MissionStatistics;
 
-  constructor(
-    p5: p5Types,
-    lifespan: number,
-    ship: Image = p5.createImage(1, 1)
-  ) {
+  constructor(p5: p5Types, lifespan: number, ships: Map<string, Image>) {
     this.p5 = p5;
     this.lifespan = lifespan;
-    this.ship = ship;
+    this.ships = ships;
     this.statistics = { generation: 0 };
   }
 
@@ -46,19 +42,20 @@ export default class Mission {
         new Rocketeer(
           targets,
           obstacles,
-          new Rocket({
-            p5: this.p5,
-            ship: this.ship,
-          }),
-          new Instructions(
-            this.p5,
-            this.lifespan,
-            this.instructions,
-            this.champion
-          )
+          new Rocket(this.p5, this.ships),
+          rocketeer === rocketeers - 1 && this.champion
+            ? this.champion.getInstructions()
+            : new Instructions(
+                this.p5,
+                this.lifespan,
+                this.instructions,
+                this.champion?.getInstructions()
+              ),
+          rocketeer === rocketeers - 1 && typeof this.champion !== 'undefined'
         )
       );
     }
+
     this.instructions.clear();
   }
 
@@ -68,7 +65,7 @@ export default class Mission {
       const fitness = rocketeer.calcFitness(this.p5, this.lifespan);
       if (fitness > maxfit) {
         maxfit = fitness;
-        this.champion = rocketeer.getInstructions();
+        this.champion = rocketeer;
       }
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {

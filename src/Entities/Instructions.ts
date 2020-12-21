@@ -1,5 +1,7 @@
 import p5Types, { Vector } from 'p5';
 
+import { Evolution } from '../Helpers/Config';
+
 class Instructions {
   private readonly steps: Vector[] = [];
 
@@ -10,7 +12,6 @@ class Instructions {
     champion: Instructions | undefined
   ) {
     const maxforce = 0.1;
-    const mutationRate = 0.04;
 
     const templates: (
       | Instructions
@@ -20,7 +21,7 @@ class Instructions {
     for (let i = 0; i < lifespan; i += 1) {
       const template = templates[Math.round(Math.random())];
       const step =
-        template && Math.random() > mutationRate
+        template && Math.random() > Evolution.MUTATION_RATE
           ? template.getStep(i)
           : Vector.random2D();
       this.steps[i] = p5.createVector(step.x, step.y);
@@ -36,9 +37,8 @@ class Instructions {
     instructions: Map<number, Instructions>,
     champion: Instructions | undefined
   ): (Instructions | undefined)[] {
-    const championSelectionRate = 0.8;
     return [
-      Math.random() > championSelectionRate
+      Math.random() > Evolution.CHAMPTION_RATE
         ? champion
         : instructions.get(Math.floor(Math.random() * instructions.size)),
       instructions.get(Math.floor(Math.random() * instructions.size)),

@@ -7,6 +7,7 @@ import Mission from './Entities/Mission';
 import { Obstacle } from './Entities/Obstacles/Obstacle.interface';
 import Title from './Entities/Obstacles/Title';
 import Target from './Entities/Target';
+import { Ships } from './Helpers/Config';
 import Statistics from './Layout/Statistics';
 
 interface MissionProps {
@@ -21,14 +22,18 @@ const Rocketeers: FC<MissionProps> = ({
   let mission: Mission;
   let statistics: Statistics;
 
+  const ships: Map<string, Image> = new Map<string, Image>();
   const images: Map<string, Image> = new Map<string, Image>();
+
   const obstacles: Obstacle[] = [];
   const targets: Target[] = [];
 
   let step = 0;
 
   const preload = (p5: p5Types) => {
-    images.set('ship', p5.loadImage('ship.png'));
+    ships.set(Ships.ROCKETEER, p5.loadImage(`${Ships.ROCKETEER}.png`));
+    ships.set(Ships.CHAMPION, p5.loadImage(`${Ships.CHAMPION}.png`));
+
     images.set('planet-orange', p5.loadImage('planet-orange.png'));
     images.set('ai-rocketeers', p5.loadImage('ai-rocketeers.png'));
     images.set('astronout', p5.loadImage('astronout.png'));
@@ -47,7 +52,7 @@ const Rocketeers: FC<MissionProps> = ({
     );
     obstacles.push(new Title(p5, images.get('ai-rocketeers')));
 
-    mission = new Mission(p5, lifespan, images.get('ship'));
+    mission = new Mission(p5, lifespan, ships);
     mission.init(rocketeers, obstacles, targets);
 
     statistics = new Statistics(p5);

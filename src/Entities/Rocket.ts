@@ -1,16 +1,12 @@
 import p5Types, { Image, Vector } from 'p5';
 
+import { Ships } from '../Helpers/Config';
 import { Obstacle } from './Obstacles/Obstacle.interface';
 import Target from './Target';
 
-type RocketType = {
-  p5: p5Types;
-  ship: Image;
-};
-
 export default class Rocket {
   private readonly p5: p5Types;
-  private readonly ship: Image;
+  private readonly ships: Map<string, Image>;
 
   private travelled = 0;
 
@@ -18,9 +14,9 @@ export default class Rocket {
   private readonly vel: Vector;
   private readonly acc: Vector;
 
-  constructor({ p5, ship }: RocketType) {
+  constructor(p5: p5Types, ships: Map<string, Image>) {
     this.p5 = p5;
-    this.ship = ship;
+    this.ships = ships;
 
     this.pos = p5.createVector(p5.width / 2, p5.height - 10);
     this.vel = p5.createVector();
@@ -67,14 +63,14 @@ export default class Rocket {
     this.travelled += this.p5.dist(this.pos.x, this.pos.y, oldpos.x, oldpos.y);
   }
 
-  render(): void {
+  render(champion: boolean): void {
     this.p5.push();
 
     this.p5.translate(this.pos.x, this.pos.y);
     this.p5.rotate(this.vel.heading());
 
     this.showThruster();
-    this.showRocket();
+    this.showRocket(champion);
 
     this.p5.pop();
   }
@@ -87,8 +83,16 @@ export default class Rocket {
     this.p5.ellipse(this.p5.random([-6, -8]), 0, 12, 6);
   }
 
-  private showRocket(): void {
+  private showRocket(champion: boolean): void {
     this.p5.imageMode(this.p5.CENTER);
-    this.p5.image(this.ship, 0, 0);
+    const image = this.p5.createImage(1, 1);
+    switch (champion) {
+      case true:
+        this.p5.image(this.ships.get(Ships.CHAMPION) || image, 0, 0, 30, 30);
+        break;
+      default:
+        this.p5.image(this.ships.get(Ships.ROCKETEER) || image, 0, 0, 30, 30);
+        break;
+    }
   }
 }
