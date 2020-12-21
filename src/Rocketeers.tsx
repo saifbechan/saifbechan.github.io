@@ -50,16 +50,8 @@ const Rocketeers: FC<MissionProps> = ({
     obstacles.push(new Statistics({ p5 }));
 
     ship = images.get('ship') || p5.createImage(1, 1);
-    mission = new Mission({
-      targets,
-      obstacles,
-    });
-    mission.init({
-      p5,
-      lifespan,
-      rocketeers,
-      ship,
-    });
+    mission = new Mission(targets, obstacles);
+    mission.init(p5, lifespan, rocketeers, ship);
   };
 
   const draw = (p5: p5Types) => {
@@ -68,8 +60,8 @@ const Rocketeers: FC<MissionProps> = ({
 
     step += 1;
     if (step === lifespan) {
-      mission.evaluate(p5);
-      mission.init({ p5, lifespan, rocketeers, ship });
+      mission.evaluate(p5, lifespan);
+      mission.init(p5, lifespan, rocketeers, ship);
       step = 0;
     }
   };

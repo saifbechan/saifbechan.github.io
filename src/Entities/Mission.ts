@@ -6,18 +6,6 @@ import Rocket from './Rocket';
 import Rocketeer from './Rocketeer';
 import Target from './Target';
 
-type MissionType = {
-  targets: Target[];
-  obstacles: Obstacle[];
-};
-
-type InitType = {
-  p5: p5Types;
-  lifespan: number;
-  rocketeers: number;
-  ship: Image;
-};
-
 export default class Mission {
   private readonly targets: Target[];
   private readonly obstacles: Obstacle[];
@@ -30,13 +18,14 @@ export default class Mission {
     number,
     Instructions
   >();
+  private champion: Instructions | undefined;
 
-  constructor({ targets, obstacles }: MissionType) {
+  constructor(targets: Target[], obstacles: Obstacle[]) {
     this.obstacles = obstacles;
     this.targets = targets;
   }
 
-  init({ p5, lifespan, rocketeers, ship }: InitType): void {
+  init(p5: p5Types, lifespan: number, rocketeers: number, ship: Image): void {
     for (let rocketeer = 0; rocketeer < rocketeers; rocketeer += 1) {
       this.rocketeers.set(
         rocketeer,
@@ -47,24 +36,26 @@ export default class Mission {
             p5,
             ship,
           }),
-          new Instructions(p5, lifespan, this.instructions)
+          new Instructions(p5, lifespan, this.instructions, this.champion)
         )
       );
     }
     this.instructions.clear();
   }
 
-  evaluate(p5: p5Types): void {
+  evaluate(p5: p5Types, lifespan: number): void {
     let maxfit = 0;
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
-      maxfit = Math.max(maxfit, rocketeer.calcFitness(p5));
+      const fitness = rocketeer.calcFitness(p5, lifespan);
+      if (fitness > maxfit) {
+        maxfit = fitness;
+        this.champion = rocketeer.getInstructions();
+      }
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       rocketeer.normalizeFitness(maxfit);
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
-      if (rocketeer.getFitness() < 0.5) return;
-
       const weight = rocketeer.getFitness() * 100;
       for (let j = 0; j < weight; j += 1) {
         this.instructions.set(
@@ -73,8 +64,6 @@ export default class Mission {
         );
       }
     });
-
-    console.log(maxfit, this.instructions.size);
   }
 
   run(step: number): void {

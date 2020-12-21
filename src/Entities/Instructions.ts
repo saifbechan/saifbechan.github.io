@@ -6,15 +6,16 @@ class Instructions {
   constructor(
     p5: p5Types,
     lifespan: number,
-    instructions: Map<number, Instructions>
+    instructions: Map<number, Instructions>,
+    champion: Instructions | undefined
   ) {
     const maxforce = 0.1;
-    const mutationRate = 0.004;
+    const mutationRate = 0.04;
 
     const templates: (
       | Instructions
       | undefined
-    )[] = Instructions.extractTemplates(instructions);
+    )[] = Instructions.extractTemplates(instructions, champion);
 
     for (let i = 0; i < lifespan; i += 1) {
       const template = templates[Math.round(Math.random())];
@@ -32,10 +33,14 @@ class Instructions {
   }
 
   private static extractTemplates(
-    instructions: Map<number, Instructions>
+    instructions: Map<number, Instructions>,
+    champion: Instructions | undefined
   ): (Instructions | undefined)[] {
+    const championSelectionRate = 0.8;
     return [
-      instructions.get(Math.floor(Math.random() * instructions.size)),
+      Math.random() > championSelectionRate
+        ? champion
+        : instructions.get(Math.floor(Math.random() * instructions.size)),
       instructions.get(Math.floor(Math.random() * instructions.size)),
     ];
   }

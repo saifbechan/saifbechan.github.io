@@ -12,6 +12,8 @@ export default class Rocket {
   private readonly p5: p5Types;
   private readonly ship: Image;
 
+  private travelled = 0;
+
   private readonly pos: Vector;
   private readonly vel: Vector;
   private readonly acc: Vector;
@@ -49,12 +51,20 @@ export default class Rocket {
     );
   }
 
+  getTravelled(): number {
+    return this.travelled;
+  }
+
   update(step: Vector): void {
+    const oldpos = this.pos.copy();
+
     this.acc.add(step);
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.mult(0);
     this.vel.limit(4);
+
+    this.travelled += this.p5.dist(this.pos.x, this.pos.y, oldpos.x, oldpos.y);
   }
 
   render(): void {
