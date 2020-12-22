@@ -45,7 +45,10 @@ export default class Rocketeer {
     // this.fitness += this.rocket.getTravelled();
     // this.fitness += this.crashed === 0 ? lifespan : this.crashed;
 
-    if (this.crashed > 0) this.fitness /= 75;
+    if (this.rocket.getDamaged() > 0) {
+      this.fitness /= this.rocket.getDamaged() * 10;
+    }
+    if (this.crashed > 0) this.fitness /= 1000;
     if (this.reached > 0) {
       this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 10;
       this.fitness *= 100 * this.reached;
@@ -66,14 +69,14 @@ export default class Rocketeer {
     if (this.crashed > 0) {
       return;
     }
-    if (this.firstvisit < Infinity && this.firstvisit + 200 > step) {
+    if (this.firstvisit < Infinity && this.firstvisit + 100 > step) {
       this.rocket.render(this.champion);
       return;
     }
 
     this.rocket.update(this.instructions.getStep(step));
 
-    if (this.rocket.isOffScreen()) {
+    if (this.rocket.isOffScreen() || this.rocket.getDamaged() === 2) {
       this.crashed = step;
       return;
     }

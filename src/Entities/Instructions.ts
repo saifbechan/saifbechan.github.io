@@ -21,7 +21,7 @@ class Instructions {
     for (let i = 0; i < lifespan; i += 1) {
       const template = templates[Math.round(Math.random())];
       const step =
-        template && Math.random() > Evolution.MUTATION_RATE
+        template && Evolution.MUTATION_RATE < Math.random()
           ? template.getStep(i)
           : Vector.random2D();
       this.steps[i] = p5.createVector(step.x, step.y);
@@ -38,7 +38,7 @@ class Instructions {
     champion: Instructions | undefined
   ): (Instructions | undefined)[] {
     return [
-      Math.random() > Evolution.CHAMPTION_RATE
+      Evolution.CHAMPTION_RATE > Math.random()
         ? champion
         : instructions.get(Math.floor(Math.random() * instructions.size)),
       instructions.get(Math.floor(Math.random() * instructions.size)),

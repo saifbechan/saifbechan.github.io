@@ -4,6 +4,6 @@ export enum Ships {
 }
 
 export enum Evolution {
-  MUTATION_RATE = 0.4,
-  CHAMPTION_RATE = 1,
+  MUTATION_RATE = 0.1,
+  CHAMPTION_RATE = 0.8,
 }

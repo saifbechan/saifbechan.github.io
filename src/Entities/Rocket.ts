@@ -9,6 +9,7 @@ export default class Rocket {
   private readonly ships: Map<string, Image>;
 
   private travelled = 0;
+  private damaged = 0;
 
   private readonly pos: Vector;
   private vel: Vector;
@@ -42,26 +43,33 @@ export default class Rocket {
   }
 
   isOffScreen(): boolean {
-    return this.pos.y > this.p5.height - 10;
+    return this.pos.y > this.p5.height;
   }
 
   getTravelled(): number {
     return this.travelled;
   }
 
-  preventCrash(): void {
+  getDamaged(): number {
+    return this.damaged;
+  }
+
+  private preventCrash(): void {
     const correct: Vector = this.p5.createVector(
-      this.vel.x * -10 + Math.random() * 10,
+      this.vel.x * -10 +
+        Math.random() * (this.pos.x > this.p5.width - 10 ? -10 : +10),
       this.vel.y * -10 + Math.random() * 10
     );
 
     if (this.pos.x < 10 || this.pos.x > this.p5.width - 10 || this.pos.y < 10) {
       this.acc = this.p5.createVector(this.acc.x / 10, this.acc.y / 10);
       this.vel = this.p5.createVector(this.vel.x / 10, this.vel.y / 10);
-      this.dmg.add(this.p5.createVector(0, Math.random()));
+      this.dmg.add(this.p5.createVector(0, Math.random() * this.damaged));
 
       this.pos.add(correct);
       this.pos.add(this.dmg);
+
+      this.damaged += 1;
     }
   }
 
