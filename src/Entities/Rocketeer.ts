@@ -41,8 +41,11 @@ export default class Rocketeer {
   }
 
   calcFitness(p5: p5Types, lifespan: number): number {
-    this.fitness = p5.map(this.closest, 0, p5.width, p5.width, 0) * 10;
-    // this.fitness += this.rocket.getTravelled();
+    this.fitness = Math.max(
+      0,
+      p5.map(this.closest, 0, p5.width, p5.width, 0) * 10
+    );
+    this.fitness += this.rocket.getTravelled();
     // this.fitness += this.crashed === 0 ? lifespan : this.crashed;
 
     if (this.rocket.getDamaged() > 0) {
@@ -50,8 +53,8 @@ export default class Rocketeer {
     }
     if (this.crashed > 0) this.fitness /= 100;
     if (this.reached > 0) {
-      this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 10;
-      this.fitness *= 100 * this.reached;
+      this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 5;
+      this.fitness *= 10 * this.reached;
     }
 
     return this.fitness;
@@ -76,7 +79,7 @@ export default class Rocketeer {
 
     this.rocket.update(this.instructions.getStep(step));
 
-    if (this.rocket.isOffScreen() || this.rocket.getDamaged() === 2) {
+    if (this.rocket.isOffScreen() || this.rocket.getDamaged() === 10) {
       this.crashed = step;
       return;
     }
@@ -106,5 +109,13 @@ export default class Rocketeer {
 
   isChampion(): boolean {
     return this.champion;
+  }
+
+  getCrashed(): number {
+    return this.crashed;
+  }
+
+  getReached(): number {
+    return this.reached;
   }
 }

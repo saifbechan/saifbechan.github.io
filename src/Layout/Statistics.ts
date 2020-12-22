@@ -1,6 +1,6 @@
 import p5Types, { Vector } from 'p5';
 
-import { MissionStatistics } from '../MissionStatistics.type';
+import { MissionStatistics } from '../Types/Statistics.type';
 
 export default class Statistics {
   private pos: Vector;
@@ -14,6 +14,7 @@ export default class Statistics {
       `Framerate: ${Math.floor(p5.frameRate())}`,
       `Generation: ${statistics.generation}`,
       `Fitness: ${statistics.fitness}`,
+      `Reached: ${statistics.reached}`,
     ];
 
     p5.textFont('Inconsolata, monospace');
