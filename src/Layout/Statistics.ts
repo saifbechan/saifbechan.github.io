@@ -6,13 +6,14 @@ export default class Statistics {
   private pos: Vector;
 
   constructor(p5: p5Types) {
-    this.pos = p5.createVector(20, p5.height - 40);
+    this.pos = p5.createVector(20, p5.height - 20);
   }
 
   render(p5: p5Types, statistics: MissionStatistics): void {
     const texts: string[] = [
-      `Generation: ${statistics.generation}`,
       `Framerate: ${Math.floor(p5.frameRate())}`,
+      `Generation: ${statistics.generation}`,
+      `Fitness: ${statistics.fitness}`,
     ];
 
     p5.textFont('Inconsolata, monospace');
@@ -20,7 +21,7 @@ export default class Statistics {
     p5.textSize(14);
     p5.fill(191, 191, 191);
     texts.forEach((text: string, index: number) => {
-      p5.text(text, this.pos.x, this.pos.y + index * 16);
+      p5.text(text, this.pos.x, this.pos.y - index * 16);
     });
   }
 }

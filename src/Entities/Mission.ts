@@ -28,7 +28,7 @@ export default class Mission {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.ships = ships;
-    this.statistics = { generation: 0 };
+    this.statistics = { generation: 0, fitness: 0 };
   }
 
   init(rocketeers: number, obstacles: Obstacle[], targets: Target[]): void {
@@ -62,6 +62,9 @@ export default class Mission {
   evaluate(): void {
     let maxfit = 0;
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
+      if (rocketeer.isChampion()) {
+        return;
+      }
       const fitness = rocketeer.calcFitness(this.p5, this.lifespan);
       if (fitness > maxfit) {
         maxfit = fitness;
@@ -73,7 +76,7 @@ export default class Mission {
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       const weight = rocketeer.getFitness() * 100;
-      if (rocketeer.getFitness() <= 0.8) {
+      if (rocketeer.getFitness() <= 0.9) {
         return;
       }
       for (let j = 0; j < weight; j += 1) {
@@ -83,6 +86,13 @@ export default class Mission {
         );
       }
     });
+
+    console.log(maxfit, this.instructions.size);
+
+    this.statistics = {
+      ...this.statistics,
+      fitness: Math.floor(maxfit),
+    };
   }
 
   run(step: number): void {

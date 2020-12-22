@@ -19,7 +19,7 @@ export default class Rocketeer {
   private crashed = 0;
   private reached = 0;
   private fitness = 0;
-  private readonly champion;
+  private readonly champion: boolean;
   private firstvisit = Infinity;
 
   constructor(
@@ -48,7 +48,7 @@ export default class Rocketeer {
     if (this.rocket.getDamaged() > 0) {
       this.fitness /= this.rocket.getDamaged() * 10;
     }
-    if (this.crashed > 0) this.fitness /= 1000;
+    if (this.crashed > 0) this.fitness /= 100;
     if (this.reached > 0) {
       this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 10;
       this.fitness *= 100 * this.reached;
@@ -102,5 +102,9 @@ export default class Rocketeer {
     });
 
     this.rocket.render(this.champion);
+  }
+
+  isChampion(): boolean {
+    return this.champion;
   }
 }
