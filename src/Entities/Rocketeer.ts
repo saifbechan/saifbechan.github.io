@@ -42,10 +42,10 @@ export default class Rocketeer {
 
   calcFitness(p5: p5Types, lifespan: number): number {
     this.fitness = p5.map(this.closest, 0, p5.width, p5.width, 0) * 10;
-    this.fitness += this.rocket.getTravelled();
-    this.fitness += this.crashed === 0 ? lifespan : this.crashed;
+    // this.fitness += this.rocket.getTravelled();
+    // this.fitness += this.crashed === 0 ? lifespan : this.crashed;
 
-    if (this.crashed > 0) this.fitness /= 100;
+    if (this.crashed > 0) this.fitness /= 75;
     if (this.reached > 0) {
       this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 10;
       this.fitness *= 100 * this.reached;
@@ -63,7 +63,13 @@ export default class Rocketeer {
   }
 
   update(step: number): void {
-    if (this.crashed > 0) return;
+    if (this.crashed > 0) {
+      return;
+    }
+    if (this.firstvisit < Infinity && this.firstvisit + 200 > step) {
+      this.rocket.render(this.champion);
+      return;
+    }
 
     this.rocket.update(this.instructions.getStep(step));
 

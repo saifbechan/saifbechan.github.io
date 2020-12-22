@@ -30,7 +30,8 @@ export default class Rocket {
         this.pos.y,
         target.getPosition().x,
         target.getPosition().y
-      ) - target.getDiameter()
+      ) -
+      2 * target.getDiameter()
     );
   }
 

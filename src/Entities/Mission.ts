@@ -73,6 +73,9 @@ export default class Mission {
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       const weight = rocketeer.getFitness() * 100;
+      if (rocketeer.getFitness() <= 0.8) {
+        return;
+      }
       for (let j = 0; j < weight; j += 1) {
         this.instructions.set(
           this.instructions.size,

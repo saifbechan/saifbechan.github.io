@@ -15,7 +15,7 @@ export default class Title implements Obstacle {
   constructor(p5: p5Types, image: Image = p5.createImage(1, 1)) {
     this.p5 = p5;
     this.image = image;
-    this.pos = p5.createVector(p5.width / 2, 300);
+    this.pos = p5.createVector(p5.width / 2, 400);
 
     switch (getViewport(p5.width)) {
       case Viewport.XS:
