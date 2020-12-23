@@ -28,7 +28,12 @@ export default class Mission {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.ships = ships;
-    this.statistics = { generation: 0, fitness: 0, reached: 0 };
+    this.statistics = {
+      instructions: 0,
+      generation: 0,
+      fitness: 0,
+      reached: 0,
+    };
   }
 
   init(rocketeers: number, obstacles: Obstacle[], targets: Target[]): void {
@@ -82,9 +87,6 @@ export default class Mission {
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       const weight = rocketeer.getFitness() * 100;
-      if (rocketeer.getFitness() >= 0.9999999) {
-        return;
-      }
       for (let j = 0; j < weight; j += 1) {
         this.instructions.set(
           this.instructions.size,
@@ -95,6 +97,7 @@ export default class Mission {
 
     this.statistics = {
       ...this.statistics,
+      instructions: this.instructions.size,
       fitness: Math.floor(maxfit),
     };
   }

@@ -12,9 +12,10 @@ export default class Statistics {
   render(p5: p5Types, statistics: MissionStatistics): void {
     const texts: string[] = [
       `Framerate: ${Math.floor(p5.frameRate())}`,
+      `Instruction sets: ${statistics.instructions}`,
       `Generation: ${statistics.generation}`,
-      `Fitness: ${statistics.fitness}`,
-      `Reached: ${statistics.reached}`,
+      `Fitness level: ${statistics.fitness}`,
+      `Planets reached: ${statistics.reached}`,
     ];
 
     p5.textFont('Inconsolata, monospace');

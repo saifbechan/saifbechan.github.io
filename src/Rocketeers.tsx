@@ -46,7 +46,7 @@ const Rocketeers: FC<MissionProps> = ({
       new Target(
         p5,
         p5.createVector(p5.width / 2, 50),
-        10,
+        30,
         images.get('planet-orange')
       )
     );

@@ -33,8 +33,7 @@ export default class Rocket {
         this.pos.y,
         target.getPosition().x,
         target.getPosition().y
-      ) -
-      2 * target.getDiameter()
+      ) - target.getDiameter()
     );
   }
 
@@ -121,5 +120,10 @@ export default class Rocket {
         this.p5.image(this.ships.get(Ships.ROCKETEER) || image, 0, 0, 30, 30);
         break;
     }
+  }
+
+  resetForces(): void {
+    this.vel = this.p5.createVector();
+    this.acc = this.p5.createVector();
   }
 }
