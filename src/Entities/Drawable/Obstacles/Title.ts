@@ -45,19 +45,12 @@ export default class Title extends Obstacle {
   }
 
   draw(): void {
-    const title = 'rocketeers';
+    this.drawTitle();
+    this.drawSubtitle();
+    this.drawIcon();
+  }
 
-    this.p5.stroke(255, 20, 147, 80);
-    this.p5.strokeWeight(2);
-    this.p5.textFont('Bungee Outline');
-    this.p5.textAlign(this.p5.CENTER);
-    this.p5.textSize(this.height);
-    this.p5.fill(255);
-    this.p5.text(title, this.pos.x, this.pos.y);
-    this.p5.noStroke();
-
-    this.width = Math.floor(this.p5.textWidth(title));
-
+  private drawIcon() {
     this.p5.imageMode(this.p5.CENTER);
     this.p5.image(
       this.image,
@@ -66,5 +59,53 @@ export default class Title extends Obstacle {
       this.scale,
       this.scale
     );
+  }
+
+  private drawTitle() {
+    const text = 'rocketeers';
+    this.p5.stroke(255, 20, 147, 80);
+    this.p5.strokeWeight(2);
+    this.p5.textFont('Bungee Outline');
+    this.p5.textAlign(this.p5.CENTER);
+    this.p5.textSize(this.height);
+    this.p5.fill(255);
+    this.p5.text(text, this.pos.x, this.pos.y);
+    this.p5.noStroke();
+    this.width = Math.floor(this.p5.textWidth(text));
+  }
+
+  private drawSubtitle(): void {
+    this.p5.strokeWeight(1);
+    this.p5.textFont('Jura');
+    this.p5.textAlign(this.p5.CENTER);
+    switch (getViewport(this.p5.width)) {
+      case Viewport.XS:
+        this.p5.textSize(10);
+        this.p5.fill(255);
+        this.p5.text(
+          'artificial genenric algotihm by Saif Bechan',
+          this.pos.x,
+          this.pos.y + 20
+        );
+        break;
+      case Viewport.SM:
+      case Viewport.MD:
+        this.p5.textSize(14);
+        this.p5.fill(255);
+        this.p5.text(
+          'artificial genenric algotihm by Saif Bechan',
+          this.pos.x,
+          this.pos.y + 25
+        );
+        break;
+      default:
+        this.p5.textSize(16);
+        this.p5.fill(255);
+        this.p5.text(
+          'artificial genenric algotihm by Saif Bechan',
+          this.pos.x,
+          this.pos.y + 30
+        );
+    }
   }
 }
