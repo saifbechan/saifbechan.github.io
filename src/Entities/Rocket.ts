@@ -121,9 +121,4 @@ export default class Rocket {
         break;
     }
   }
-
-  resetForces(): void {
-    this.vel = this.p5.createVector();
-    this.acc = this.p5.createVector();
-  }
 }

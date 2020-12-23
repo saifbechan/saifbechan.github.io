@@ -18,8 +18,8 @@
       "type": "image/png"
     }
   ],
-  "name": "React App",
-  "short_name": "React App",
+  "name": "Rocketeers - space explorers",
+  "short_name": "Rocketeers",
   "start_url": ".",
   "theme_color": "#000000"
 }

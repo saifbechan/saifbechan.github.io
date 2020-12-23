@@ -15,7 +15,7 @@ interface MissionProps {
   rocketeers: number;
 }
 
-const Rocketeers: FC<MissionProps> = ({
+const RocketeerApp: FC<MissionProps> = ({
   lifespan,
   rocketeers,
 }: MissionProps) => {
@@ -36,7 +36,6 @@ const Rocketeers: FC<MissionProps> = ({
 
     images.set('planet-orange', p5.loadImage('planet-orange.png'));
     images.set('ai-rocketeers', p5.loadImage('ai-rocketeers.png'));
-    images.set('astronout', p5.loadImage('astronout.png'));
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -46,7 +45,7 @@ const Rocketeers: FC<MissionProps> = ({
       new Target(
         p5,
         p5.createVector(p5.width / 2, 50),
-        30,
+        20,
         images.get('planet-orange')
       )
     );
@@ -59,7 +58,7 @@ const Rocketeers: FC<MissionProps> = ({
   };
 
   const draw = (p5: p5Types) => {
-    p5.background(8, 51, 73);
+    p5.background(20, 21, 38);
 
     targets.forEach((target: Target) => target.render());
     obstacles.forEach((obstacle: Obstacle) => obstacle.render());
@@ -82,6 +81,7 @@ const Rocketeers: FC<MissionProps> = ({
 
   return (
     <Sketch
+      data-testid="sketch"
       draw={draw}
       preload={preload}
       setup={setup}
@@ -90,4 +90,4 @@ const Rocketeers: FC<MissionProps> = ({
   );
 };
 
-export default Rocketeers;
+export default RocketeerApp;

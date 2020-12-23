@@ -44,14 +44,12 @@ export default class Rocketeer {
     this.fitness = this.rocket.getTravelled();
 
     if (this.reached > 0) {
-      this.fitness += this.rocket.getTravelled() * 4;
-      this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 3;
-      this.fitness *= this.reached + 1;
+      this.fitness += this.rocket.getTravelled();
+      this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 2;
+      this.fitness *= this.reached + 2;
     } else {
-      this.fitness += Math.max(
-        0,
-        p5.map(this.closest, 0, p5.width, p5.width, 0)
-      );
+      this.fitness +=
+        Math.max(0, p5.map(this.closest, 0, p5.width, p5.width, 0)) * 2;
     }
     if (this.crashed > 0) this.fitness /= 10;
     if (this.rocket.getDamaged() > 0) {
@@ -102,8 +100,6 @@ export default class Rocketeer {
         this.closest = Infinity;
         this.reached += 1;
         this.firstvisit = Math.min(this.firstvisit, step);
-
-        this.rocket.resetForces();
       }
       this.journey.set(index, { distance, reached: distance <= 0 });
     });
@@ -113,10 +109,6 @@ export default class Rocketeer {
 
   isChampion(): boolean {
     return this.champion;
-  }
-
-  getCrashed(): number {
-    return this.crashed;
   }
 
   getReached(): number {
