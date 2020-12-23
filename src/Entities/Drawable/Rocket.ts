@@ -1,12 +1,11 @@
 import p5Types, { Image, Vector } from 'p5';
 
-import { Ships } from '../Helpers/Config';
-import { Obstacle } from './Obstacles/Obstacle.interface';
-import Target from './Target';
+import { Ships } from '../../Helpers/Config';
+import Obstacle from './Obstacles/Obstacle';
 
 export default class Rocket {
   private readonly p5: p5Types;
-  private readonly ships: Map<string, Image>;
+  private readonly images: Map<string, Image>;
 
   private travelled = 0;
   private damaged = 0;
@@ -16,9 +15,9 @@ export default class Rocket {
   private acc: Vector;
   private readonly dmg: Vector;
 
-  constructor(p5: p5Types, ships: Map<string, Image>) {
+  constructor(p5: p5Types, images: Map<string, Image>) {
     this.p5 = p5;
-    this.ships = ships;
+    this.images = images;
 
     this.pos = p5.createVector(p5.width / 2, p5.height - 10);
     this.vel = p5.createVector();
@@ -26,19 +25,12 @@ export default class Rocket {
     this.dmg = p5.createVector();
   }
 
-  distanceTo(target: Target): number {
-    return (
-      this.p5.dist(
-        this.pos.x,
-        this.pos.y,
-        target.getPosition().x,
-        target.getPosition().y
-      ) - target.getDiameter()
-    );
+  distanceTo(pos: Vector, diameter: number): number {
+    return this.p5.dist(this.pos.x, this.pos.y, pos.x, pos.y) - diameter;
   }
 
   hasCrashedInto(obstacle: Obstacle): boolean {
-    return obstacle.gothit ? obstacle.gothit(this.pos) : false;
+    return obstacle.checkCollision(this.pos);
   }
 
   isOffScreen(): boolean {
@@ -87,7 +79,7 @@ export default class Rocket {
     this.travelled += this.p5.dist(this.pos.x, this.pos.y, oldpos.x, oldpos.y);
   }
 
-  render(champion: boolean): void {
+  draw(champion: boolean): void {
     this.p5.push();
 
     this.preventCrash();
@@ -95,13 +87,13 @@ export default class Rocket {
     this.p5.translate(this.pos.x, this.pos.y);
     this.p5.rotate(this.vel.heading());
 
-    this.showThruster();
-    this.showRocket(champion);
+    this.drawThruster();
+    this.drawRocket(champion);
 
     this.p5.pop();
   }
 
-  private showThruster(): void {
+  private drawThruster(): void {
     this.p5.noStroke();
     this.p5.fill(255, 185, 0);
     this.p5.ellipse(this.p5.random([-6, -8]), 0, 16, 4);
@@ -109,15 +101,15 @@ export default class Rocket {
     this.p5.ellipse(this.p5.random([-6, -8]), 0, 12, 6);
   }
 
-  private showRocket(champion: boolean): void {
+  private drawRocket(champion: boolean): void {
     this.p5.imageMode(this.p5.CENTER);
     const image = this.p5.createImage(1, 1);
     switch (champion) {
       case true:
-        this.p5.image(this.ships.get(Ships.CHAMPION) || image, 0, 0, 30, 30);
+        this.p5.image(this.images.get(Ships.CHAMPION) || image, 0, 0, 30, 30);
         break;
       default:
-        this.p5.image(this.ships.get(Ships.ROCKETEER) || image, 0, 0, 30, 30);
+        this.p5.image(this.images.get(Ships.ROCKETEER) || image, 0, 0, 30, 30);
         break;
     }
   }

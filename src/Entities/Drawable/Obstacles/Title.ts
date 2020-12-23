@@ -1,9 +1,9 @@
 import p5Types, { Image, Vector } from 'p5';
 
-import { getViewport, Viewport } from '../../Helpers/Viewport';
-import { Obstacle } from './Obstacle.interface';
+import { getViewport, Viewport } from '../../../Helpers/Viewport';
+import Obstacle from './Obstacle';
 
-export default class Title implements Obstacle {
+export default class Title extends Obstacle {
   private readonly p5: p5Types;
   private readonly pos: Vector;
 
@@ -13,6 +13,7 @@ export default class Title implements Obstacle {
   private width = 0;
 
   constructor(p5: p5Types, image: Image = p5.createImage(1, 1)) {
+    super();
     this.p5 = p5;
     this.image = image;
     this.pos = p5.createVector(p5.width / 2, 400);
@@ -34,7 +35,7 @@ export default class Title implements Obstacle {
     this.scale = (this.height / 5) * 4;
   }
 
-  gothit(position: Vector): boolean {
+  checkCollision(position: Vector): boolean {
     return (
       position.x > this.pos.x - this.width / 2 &&
       position.x < this.pos.x + this.width / 2 &&
@@ -43,7 +44,7 @@ export default class Title implements Obstacle {
     );
   }
 
-  render(): void {
+  draw(): void {
     const title = 'rocketeers';
 
     this.p5.stroke(255, 20, 147, 80);

@@ -1,6 +1,6 @@
 import p5Types, { Image, Vector } from 'p5';
 
-class Target {
+export default class Target {
   private readonly p5: p5Types;
   private readonly pos: Vector;
   private readonly diameter: number;
@@ -26,7 +26,7 @@ class Target {
     return this.diameter;
   }
 
-  render(): void {
+  draw(): void {
     this.p5.imageMode(this.p5.CENTER);
     this.p5.image(
       this.image,
@@ -37,5 +37,3 @@ class Target {
     );
   }
 }
-
-export default Target;

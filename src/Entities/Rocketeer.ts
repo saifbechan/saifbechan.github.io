@@ -1,9 +1,9 @@
 import p5Types from 'p5';
 
+import Obstacle from './Drawable/Obstacles/Obstacle';
+import Rocket from './Drawable/Rocket';
+import Target from './Drawable/Target';
 import Instructions from './Instructions';
-import { Obstacle } from './Obstacles/Obstacle.interface';
-import Rocket from './Rocket';
-import Target from './Target';
 
 export default class Rocketeer {
   private readonly targets: Target[];
@@ -73,7 +73,7 @@ export default class Rocketeer {
     }
 
     if (this.firstvisit < Infinity && this.firstvisit + 25 > step) {
-      this.rocket.render(this.champion);
+      this.rocket.draw(this.champion);
       return;
     }
 
@@ -94,7 +94,10 @@ export default class Rocketeer {
       const journey = this.journey.get(index);
       if (journey && journey.reached) return;
 
-      const distance = this.rocket.distanceTo(target);
+      const distance = this.rocket.distanceTo(
+        target.getPosition(),
+        target.getDiameter()
+      );
       this.closest = Math.min(this.closest, distance);
       if (distance <= 0) {
         this.closest = Infinity;
@@ -104,11 +107,7 @@ export default class Rocketeer {
       this.journey.set(index, { distance, reached: distance <= 0 });
     });
 
-    this.rocket.render(this.champion);
-  }
-
-  isChampion(): boolean {
-    return this.champion;
+    this.rocket.draw(this.champion);
   }
 
   getReached(): number {

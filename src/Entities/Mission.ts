@@ -1,17 +1,17 @@
 import p5Types, { Image } from 'p5';
 
 import { MissionStatistics } from '../Types/Statistics.type';
+import Atlas from './Drawable/Atlas';
+import Rocket from './Drawable/Rocket';
 import Instructions from './Instructions';
-import { Obstacle } from './Obstacles/Obstacle.interface';
-import Rocket from './Rocket';
 import Rocketeer from './Rocketeer';
-import Target from './Target';
 
 export default class Mission {
   private readonly p5: p5Types;
   private readonly lifespan: number;
-  private readonly ships: Map<string, Image>;
+  private readonly images: Map<string, Image>;
 
+  private readonly atlas: Atlas;
   private readonly rocketeers: Map<number, Rocketeer> = new Map<
     number,
     Rocketeer
@@ -21,13 +21,13 @@ export default class Mission {
     Instructions
   >();
   private champion: Rocketeer | undefined;
-
   private statistics: MissionStatistics;
 
-  constructor(p5: p5Types, lifespan: number, ships: Map<string, Image>) {
+  constructor(p5: p5Types, lifespan: number, images: Map<string, Image>) {
     this.p5 = p5;
     this.lifespan = lifespan;
-    this.ships = ships;
+    this.images = images;
+    this.atlas = new Atlas(p5, images);
     this.statistics = {
       instructions: 0,
       generation: 0,
@@ -36,7 +36,7 @@ export default class Mission {
     };
   }
 
-  init(rocketeers: number, obstacles: Obstacle[], targets: Target[]): void {
+  init(rocketeers: number): void {
     this.statistics = {
       ...this.statistics,
       generation: (this.statistics.generation += 1),
@@ -45,18 +45,18 @@ export default class Mission {
       let rocketeer: Rocketeer;
       if (count === rocketeers - 1 && this.champion) {
         rocketeer = new Rocketeer(
-          targets,
-          obstacles,
-          new Rocket(this.p5, this.ships),
+          this.atlas.getTargets(),
+          this.atlas.getObstacles(),
+          new Rocket(this.p5, this.images),
           this.champion.getInstructions(),
           true
         );
         this.champion = undefined;
       } else {
         rocketeer = new Rocketeer(
-          targets,
-          obstacles,
-          new Rocket(this.p5, this.ships),
+          this.atlas.getTargets(),
+          this.atlas.getObstacles(),
+          new Rocket(this.p5, this.images),
           new Instructions(
             this.p5,
             this.lifespan,
@@ -66,10 +66,8 @@ export default class Mission {
           false
         );
       }
-
       this.rocketeers.set(count, rocketeer);
     }
-
     this.instructions.clear();
   }
 
@@ -112,9 +110,6 @@ export default class Mission {
       ...this.statistics,
       reached,
     };
-  }
-
-  getStatistics(): MissionStatistics {
-    return this.statistics;
+    this.atlas.render(this.p5, this.statistics);
   }
 }

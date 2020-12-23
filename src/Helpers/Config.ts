@@ -1,3 +1,7 @@
+export enum Obstacles {
+  AI_ROCKETEER = 'ai-rocketeers',
+}
+
 export enum Ships {
   ROCKETEER = 'ship-red',
   CHAMPION = 'ship-yellow',

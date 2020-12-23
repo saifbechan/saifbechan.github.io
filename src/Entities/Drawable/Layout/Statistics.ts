@@ -1,15 +1,16 @@
 import p5Types, { Vector } from 'p5';
 
-import { MissionStatistics } from '../Types/Statistics.type';
+import { MissionStatistics } from '../../../Types/Statistics.type';
+import Layout from './Layout';
 
-export default class Statistics {
+export default class Statistics implements Layout {
   private pos: Vector;
 
   constructor(p5: p5Types) {
     this.pos = p5.createVector(20, p5.height - 20);
   }
 
-  render(p5: p5Types, statistics: MissionStatistics): void {
+  draw(p5: p5Types, statistics: MissionStatistics): void {
     const texts: string[] = [
       `Framerate: ${Math.floor(p5.frameRate())}`,
       `Instruction sets: ${statistics.instructions}`,
