@@ -3,6 +3,11 @@ export enum Ships {
   CHAMPION = 'ship-yellow',
 }
 
+export enum Planets {
+  ORANGE = 'planet-orange',
+  RED = 'planet-red',
+}
+
 export enum Evolution {
   MUTATION_RATE = 0.01,
   CHAMPTION_RATE = 1,

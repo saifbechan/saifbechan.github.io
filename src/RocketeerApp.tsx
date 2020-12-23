@@ -7,7 +7,7 @@ import Mission from './Entities/Mission';
 import { Obstacle } from './Entities/Obstacles/Obstacle.interface';
 import Title from './Entities/Obstacles/Title';
 import Target from './Entities/Target';
-import { Ships } from './Helpers/Config';
+import { Planets, Ships } from './Helpers/Config';
 import Statistics from './Layout/Statistics';
 
 interface MissionProps {
@@ -23,7 +23,8 @@ const RocketeerApp: FC<MissionProps> = ({
   let statistics: Statistics;
 
   const ships: Map<string, Image> = new Map<string, Image>();
-  const images: Map<string, Image> = new Map<string, Image>();
+  const planets: Map<string, Image> = new Map<string, Image>();
+  const layout: Map<string, Image> = new Map<string, Image>();
 
   const obstacles: Obstacle[] = [];
   const targets: Target[] = [];
@@ -31,11 +32,15 @@ const RocketeerApp: FC<MissionProps> = ({
   let step = 0;
 
   const preload = (p5: p5Types) => {
-    ships.set(Ships.ROCKETEER, p5.loadImage(`${Ships.ROCKETEER}.png`));
-    ships.set(Ships.CHAMPION, p5.loadImage(`${Ships.CHAMPION}.png`));
+    Object.values(Ships).forEach((ship: string) => {
+      ships.set(ship, p5.loadImage(`${ship}.png`));
+    });
 
-    images.set('planet-orange', p5.loadImage('planet-orange.png'));
-    images.set('ai-rocketeers', p5.loadImage('ai-rocketeers.png'));
+    Object.values(Planets).forEach((planet: string) => {
+      planets.set(planet, p5.loadImage(`${planet}.png`));
+    });
+
+    layout.set('ai-rocketeers', p5.loadImage('ai-rocketeers.png'));
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -45,11 +50,20 @@ const RocketeerApp: FC<MissionProps> = ({
       new Target(
         p5,
         p5.createVector(p5.width / 2, 50),
-        20,
-        images.get('planet-orange')
+        25,
+        planets.get(Planets.ORANGE)
       )
     );
-    obstacles.push(new Title(p5, images.get('ai-rocketeers')));
+
+    targets.push(
+      new Target(
+        p5,
+        p5.createVector((p5.width / 4) * 3, 150),
+        40,
+        planets.get(Planets.RED)
+      )
+    );
+    obstacles.push(new Title(p5, layout.get('ai-rocketeers')));
 
     mission = new Mission(p5, lifespan, ships);
     mission.init(rocketeers, obstacles, targets);
