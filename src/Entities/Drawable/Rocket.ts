@@ -1,11 +1,11 @@
-import p5Types, { Image, Vector } from 'p5';
+import p5Types, { Graphics, Image, Vector } from 'p5';
 
 import { Ships } from '../../Helpers/Config';
 import Obstacle from './Obstacles/Obstacle';
 
 export default class Rocket {
   private readonly p5: p5Types;
-  private readonly images: Map<string, Image>;
+  private readonly images: Map<string, Image | Graphics>;
 
   private travelled = 0;
   private damaged = 0;
@@ -15,7 +15,7 @@ export default class Rocket {
   private acc: Vector;
   private readonly dmg: Vector;
 
-  constructor(p5: p5Types, images: Map<string, Image>) {
+  constructor(p5: p5Types, images: Map<string, Image | Graphics>) {
     this.p5 = p5;
     this.images = images;
 
@@ -43,6 +43,10 @@ export default class Rocket {
 
   getDamaged(): number {
     return this.damaged;
+  }
+
+  getPosition(): Vector {
+    return this.pos;
   }
 
   private preventCrash(): void {

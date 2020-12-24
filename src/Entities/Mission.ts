@@ -1,4 +1,4 @@
-import p5Types, { Image } from 'p5';
+import p5Types, { Graphics, Image, Vector } from 'p5';
 
 import { MissionStatistics } from '../Types/Statistics.type';
 import Atlas from './Drawable/Atlas';
@@ -22,12 +22,19 @@ export default class Mission {
   >();
   private champion: Rocketeer | undefined;
   private statistics: MissionStatistics;
+  private trails: Vector[] = [];
 
-  constructor(p5: p5Types, lifespan: number, images: Map<string, Image>) {
+  constructor(
+    p5: p5Types,
+    lifespan: number,
+    images: Map<string, Image>,
+    trails: Graphics
+  ) {
     this.p5 = p5;
     this.lifespan = lifespan;
     this.images = images;
-    this.atlas = new Atlas(p5, images);
+
+    this.atlas = new Atlas(p5, images, trails);
     this.statistics = {
       instructions: 0,
       generation: 0,
@@ -45,8 +52,7 @@ export default class Mission {
       let rocketeer: Rocketeer;
       if (count === rocketeers - 1 && this.champion) {
         rocketeer = new Rocketeer(
-          this.atlas.getTargets(),
-          this.atlas.getObstacles(),
+          this.atlas,
           new Rocket(this.p5, this.images),
           this.champion.getInstructions(),
           true
@@ -54,8 +60,7 @@ export default class Mission {
         this.champion = undefined;
       } else {
         rocketeer = new Rocketeer(
-          this.atlas.getTargets(),
-          this.atlas.getObstacles(),
+          this.atlas,
           new Rocket(this.p5, this.images),
           new Instructions(
             this.p5,
@@ -101,15 +106,19 @@ export default class Mission {
   }
 
   run(step: number): void {
+    this.atlas.render(this.p5, this.statistics, this.trails);
+
     let reached = 0;
+    this.trails = [];
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       rocketeer.update(step);
+
+      this.trails.push(rocketeer.getRocketPosition());
       reached += rocketeer.getReached();
     });
     this.statistics = {
       ...this.statistics,
       reached,
     };
-    this.atlas.render(this.p5, this.statistics);
   }
 }

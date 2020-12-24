@@ -1,13 +1,13 @@
-import p5Types from 'p5';
+import p5Types, { Vector } from 'p5';
 
+import Atlas from './Drawable/Atlas';
 import Obstacle from './Drawable/Obstacles/Obstacle';
 import Rocket from './Drawable/Rocket';
 import Target from './Drawable/Target';
 import Instructions from './Instructions';
 
 export default class Rocketeer {
-  private readonly targets: Target[];
-  private readonly obstacles: Obstacle[];
+  private readonly atlas: Atlas;
   private readonly rocket: Rocket;
   private readonly instructions: Instructions;
 
@@ -23,14 +23,12 @@ export default class Rocketeer {
   private firstvisit = Infinity;
 
   constructor(
-    targets: Target[],
-    obstacles: Obstacle[],
+    atlas: Atlas,
     rocket: Rocket,
     instructions: Instructions,
     champion: boolean
   ) {
-    this.targets = targets;
-    this.obstacles = obstacles;
+    this.atlas = atlas;
     this.rocket = rocket;
     this.instructions = instructions;
     this.champion = champion;
@@ -67,6 +65,14 @@ export default class Rocketeer {
     return this.instructions;
   }
 
+  getReached(): number {
+    return this.reached;
+  }
+
+  getRocketPosition(): Vector {
+    return this.rocket.getPosition();
+  }
+
   update(step: number): void {
     if (this.crashed > 0) {
       return;
@@ -84,13 +90,13 @@ export default class Rocketeer {
       return;
     }
 
-    this.obstacles.forEach((obstacle: Obstacle) => {
+    this.atlas.getObstacles().forEach((obstacle: Obstacle) => {
       if (this.rocket.hasCrashedInto(obstacle)) {
         this.crashed = step;
       }
     });
 
-    this.targets.forEach((target: Target, index: number) => {
+    this.atlas.getTargets().forEach((target: Target, index: number) => {
       const journey = this.journey.get(index);
       if (journey && journey.reached) return;
 
@@ -108,9 +114,5 @@ export default class Rocketeer {
     });
 
     this.rocket.draw(this.champion);
-  }
-
-  getReached(): number {
-    return this.reached;
   }
 }

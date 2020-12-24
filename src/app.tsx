@@ -40,7 +40,12 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
       canvasParentRef
     );
 
-    mission = new Mission(p5, lifespan, images);
+    mission = new Mission(
+      p5,
+      lifespan,
+      images,
+      p5.createGraphics(p5.windowWidth - 10, p5.windowHeight - 5)
+    );
     mission.init(rocketeers);
   };
 

@@ -1,4 +1,4 @@
-import p5Types, { Image, Vector } from 'p5';
+import p5Types, { Graphics, Image, Vector } from 'p5';
 
 import { getViewport, Viewport } from '../../../Helpers/Viewport';
 import Obstacle from './Obstacle';
@@ -7,12 +7,12 @@ export default class Title extends Obstacle {
   private readonly p5: p5Types;
   private readonly pos: Vector;
 
-  private readonly image: Image;
+  private readonly image: Image | Graphics | undefined;
   private readonly scale;
   private readonly height;
   private width = 0;
 
-  constructor(p5: p5Types, image: Image = p5.createImage(1, 1)) {
+  constructor(p5: p5Types, image: Image | Graphics | undefined) {
     super();
     this.p5 = p5;
     this.image = image;
@@ -51,6 +51,10 @@ export default class Title extends Obstacle {
   }
 
   private drawIcon() {
+    if (!this.image) {
+      return;
+    }
+
     this.p5.imageMode(this.p5.CENTER);
     this.p5.image(
       this.image,

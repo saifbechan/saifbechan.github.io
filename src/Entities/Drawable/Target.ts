@@ -1,16 +1,16 @@
-import p5Types, { Image, Vector } from 'p5';
+import p5Types, { Graphics, Image, Vector } from 'p5';
 
 export default class Target {
   private readonly p5: p5Types;
   private readonly pos: Vector;
   private readonly diameter: number;
-  private readonly image: Image;
+  private readonly image: Image | Graphics | undefined;
 
   constructor(
     p5: p5Types,
     pos: Vector,
     diameter: number,
-    image: Image = p5.createImage(1, 1)
+    image: Image | Graphics | undefined
   ) {
     this.p5 = p5;
     this.pos = pos;
@@ -27,6 +27,10 @@ export default class Target {
   }
 
   draw(): void {
+    if (!this.image) {
+      return;
+    }
+
     this.p5.imageMode(this.p5.CENTER);
     this.p5.image(
       this.image,
