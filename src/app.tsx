@@ -1,20 +1,20 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import Sketch from 'react-p5';
 
 import p5Types, { Image } from 'p5';
 
+import Contact from './components/contact';
 import Mission from './Entities/Mission';
 import { Obstacles, Planets, Ships } from './Helpers/Config';
+
+import './app.scss';
 
 interface MissionProps {
   lifespan: number;
   rocketeers: number;
 }
 
-const RocketeerApp: FC<MissionProps> = ({
-  lifespan,
-  rocketeers,
-}: MissionProps) => {
+const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
   let mission: Mission;
 
   const images: Map<string, Image> = new Map<string, Image>();
@@ -36,7 +36,9 @@ const RocketeerApp: FC<MissionProps> = ({
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
+    p5.createCanvas(p5.windowWidth - 10, p5.windowHeight - 5).parent(
+      canvasParentRef
+    );
 
     mission = new Mission(p5, lifespan, images);
     mission.init(rocketeers);
@@ -58,14 +60,17 @@ const RocketeerApp: FC<MissionProps> = ({
   };
 
   return (
-    <Sketch
-      data-testid="sketch"
-      draw={draw}
-      preload={preload}
-      setup={setup}
-      windowResized={windowResized}
-    />
+    <>
+      <Contact />
+      <Sketch
+        data-testid="sketch"
+        draw={draw}
+        preload={preload}
+        setup={setup}
+        windowResized={windowResized}
+      />
+    </>
   );
 };
 
-export default RocketeerApp;
+export default App;

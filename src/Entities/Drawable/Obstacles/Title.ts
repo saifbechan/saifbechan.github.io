@@ -83,7 +83,7 @@ export default class Title extends Obstacle {
         this.p5.textSize(10);
         this.p5.fill(255);
         this.p5.text(
-          'artificial genenric algotihm by Saif Bechan',
+          'artificial genetic algorithm by Saif Bechan',
           this.pos.x,
           this.pos.y + 20
         );
@@ -93,7 +93,7 @@ export default class Title extends Obstacle {
         this.p5.textSize(14);
         this.p5.fill(255);
         this.p5.text(
-          'artificial genenric algotihm by Saif Bechan',
+          'artificial genetic algorithm by Saif Bechan',
           this.pos.x,
           this.pos.y + 25
         );
@@ -102,7 +102,7 @@ export default class Title extends Obstacle {
         this.p5.textSize(16);
         this.p5.fill(255);
         this.p5.text(
-          'artificial genenric algotihm by Saif Bechan',
+          'artificial genetic algorithm by Saif Bechan',
           this.pos.x,
           this.pos.y + 30
         );

@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`renders a p5 sketch canvas without crashing 1`] = `
-<DocumentFragment>
-  <div
-    class="react-p5"
-  />
-</DocumentFragment>
-`;

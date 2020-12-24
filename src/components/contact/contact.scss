@@ -1,0 +1,28 @@
+section {
+  text-align: right;
+  color: aliceblue;
+  display: block;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  overflow: hidden;
+
+  a {
+    color: aliceblue;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+
+    svg {
+      margin-left: 5px;
+    }
+  }
+
+  a:hover {
+    text-shadow:0 0 10px deeppink;
+    color: burlywood;
+  }
+
+  a:first-child {
+    margin-right: 10px;
+  }
+}
