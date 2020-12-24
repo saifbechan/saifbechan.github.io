@@ -4,6 +4,8 @@ import {
   IconDefinition,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import rocketeer from './rocketeer.png';
 import './contact.scss';
 
 type LinkType = {
@@ -30,7 +32,7 @@ export default function Contact(): JSX.Element {
   ];
 
   return (
-    <footer id="contact">
+    <div id="contact">
       {links.map(
         (link: LinkType): JSX.Element => (
           <section id={link.name} key={link.name}>
@@ -41,6 +43,7 @@ export default function Contact(): JSX.Element {
           </section>
         )
       )}
-    </footer>
+      <img alt="Rocketeer" src={rocketeer} />
+    </div>
   );
 }

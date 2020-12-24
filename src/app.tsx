@@ -60,16 +60,17 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
   };
 
   return (
-    <>
-      <Contact />
+    <div data-testid="app" id="app">
       <Sketch
-        data-testid="sketch"
         draw={draw}
         preload={preload}
         setup={setup}
         windowResized={windowResized}
       />
-    </>
+      <footer>
+        <Contact />
+      </footer>
+    </div>
   );
 };
 

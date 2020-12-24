@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders a p5 sketch canvas without crashing 1`] = `
+exports[`renders correctly 1`] = `
 <DocumentFragment>
-  <footer
+  <div
     id="contact"
   >
     <section
@@ -57,9 +57,10 @@ exports[`renders a p5 sketch canvas without crashing 1`] = `
         </svg>
       </a>
     </section>
-  </footer>
-  <div
-    class="react-p5"
-  />
+    <img
+      alt="Rocketeer"
+      src="rocketeer.png"
+    />
+  </div>
 </DocumentFragment>
 `;
