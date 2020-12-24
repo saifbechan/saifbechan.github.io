@@ -11,7 +11,7 @@ export default class Rocketeer {
   private readonly rocket: Rocket;
   private readonly instructions: Instructions;
 
-  private readonly journey: Map<
+  private readonly logbook: Map<
     number,
     { distance: number; reached: boolean }
   > = new Map<number, { distance: number; reached: boolean }>();
@@ -97,7 +97,7 @@ export default class Rocketeer {
     });
 
     this.atlas.getTargets().forEach((target: Target, index: number) => {
-      const journey = this.journey.get(index);
+      const journey = this.logbook.get(index);
       if (journey && journey.reached) return;
 
       const distance = this.rocket.distanceTo(
@@ -110,7 +110,7 @@ export default class Rocketeer {
         this.reached += 1;
         this.firstvisit = Math.min(this.firstvisit, step);
       }
-      this.journey.set(index, { distance, reached: distance <= 0 });
+      this.logbook.set(index, { distance, reached: distance <= 0 });
     });
 
     this.rocket.draw(this.champion);
