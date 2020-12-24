@@ -57,7 +57,6 @@ export default class Mission {
           this.champion.getInstructions(),
           true
         );
-        this.champion = undefined;
       } else {
         rocketeer = new Rocketeer(
           this.atlas,
