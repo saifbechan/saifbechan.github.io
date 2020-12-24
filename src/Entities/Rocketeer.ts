@@ -21,6 +21,7 @@ export default class Rocketeer {
   private fitness = 0;
   private readonly champion: boolean;
   private firstvisit = Infinity;
+  private visitspeed = 0;
 
   constructor(
     atlas: Atlas,
@@ -40,14 +41,11 @@ export default class Rocketeer {
 
   calcFitness(p5: p5Types, lifespan: number): number {
     this.fitness = this.rocket.getTravelled();
+    this.fitness += Math.max(0, p5.map(this.closest, 0, p5.width, p5.width, 0));
 
     if (this.reached > 0) {
-      this.fitness += this.rocket.getTravelled();
-      this.fitness += p5.map(this.firstvisit, 0, lifespan, lifespan, 0) * 2;
-      this.fitness *= this.reached + 2;
-    } else {
-      this.fitness +=
-        Math.max(0, p5.map(this.closest, 0, p5.width, p5.width, 0)) * 2;
+      this.fitness += p5.map(this.visitspeed, 0, lifespan, lifespan, 0);
+      this.fitness *= this.reached * 10;
     }
     if (this.crashed > 0) this.fitness /= 10;
     if (this.rocket.getDamaged() > 0) {
@@ -105,10 +103,11 @@ export default class Rocketeer {
         target.getDiameter()
       );
       this.closest = Math.min(this.closest, distance);
-      if (distance <= 0) {
+      if (distance <= Math.random() * 10) {
         this.closest = Infinity;
         this.reached += 1;
         this.firstvisit = Math.min(this.firstvisit, step);
+        this.visitspeed = (this.visitspeed + step) / this.reached;
       }
       this.logbook.set(index, { distance, reached: distance <= 0 });
     });

@@ -51,15 +51,15 @@ export default class Atlas {
   }
 
   render(p5: p5Types, statistics: MissionStatistics, trails: Vector[]): void {
-    this.layouts.forEach((layout: Layout) => layout.draw(p5, statistics));
-    this.targets.forEach((targets: Target) => targets.draw());
-    this.obstacles.forEach((obstacle: Obstacle) => obstacle.draw());
     trails.forEach((trail) => {
       this.trails.stroke(251, 145, 186, 30);
       this.trails.point(trail.x, trail.y);
     });
     p5.imageMode(p5.CORNER);
     p5.image(this.trails, 0, 0);
+    this.layouts.forEach((layout: Layout) => layout.draw(p5, statistics));
+    this.targets.forEach((targets: Target) => targets.draw());
+    this.obstacles.forEach((obstacle: Obstacle) => obstacle.draw());
   }
   getTargets(): Target[] {
     return this.targets;
