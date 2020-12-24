@@ -40,7 +40,8 @@ export default class Title extends Obstacle {
       position.x > this.pos.x - this.width / 2 &&
       position.x < this.pos.x + this.width / 2 &&
       position.y > this.pos.y - this.scale &&
-      position.y < this.pos.y + 10
+      position.y < this.pos.y + 10 &&
+      Math.random() < 0.5
     );
   }
 
