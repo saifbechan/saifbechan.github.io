@@ -41,6 +41,7 @@ export default class Mission {
       fitness: 0,
       reached: 0,
       maxtravel: 0,
+      champion: '',
     };
   }
 
@@ -103,6 +104,7 @@ export default class Mission {
       ...this.statistics,
       instructions: this.instructions.size,
       fitness: Math.floor(maxfit),
+      champion: this.champion?.toString() || '',
     };
 
     // eslint-disable-next-line no-console

@@ -6,21 +6,22 @@ import Rocket from './Drawable/Rocket';
 import Target from './Drawable/Target';
 import Instructions from './Instructions';
 
+type JourneyType = { closest: number; reached: number };
 export default class Rocketeer {
   private readonly atlas: Atlas;
   private readonly rocket: Rocket;
   private readonly instructions: Instructions;
 
-  private readonly logbook: Map<
+  private readonly logbook: Map<number, JourneyType> = new Map<
     number,
-    { distance: number; reached: boolean }
-  > = new Map<number, { distance: number; reached: boolean }>();
-  private closest = Infinity;
+    JourneyType
+  >();
+  private visit = Infinity;
+  private visits = 0;
   private crashed = 0;
   private fitness = 0;
+  private bonus = 0;
   private readonly champion: boolean;
-  private visit = Infinity;
-  private visits: number[] = [];
 
   constructor(
     atlas: Atlas,
@@ -39,26 +40,31 @@ export default class Rocketeer {
   }
 
   calcFitness(p5: p5Types, lifespan: number): number {
-    if (this.visits.length > 0) {
-      this.visits.forEach((step: number, index: number) => {
-        this.fitness = p5.width;
-        this.fitness += p5.map(step, 0, lifespan, lifespan, 0) * 10;
+    this.fitness = 0;
+    this.atlas.getTargets().forEach((target: Target, index: number) => {
+      const journey: JourneyType = this.logbook.get(index) || {
+        closest: Infinity,
+        reached: 0,
+      };
+      if (journey.closest === Infinity) return;
 
-        if (index < this.atlas.getTargets().length) {
-          return;
-        }
-
-        if (this.visits.length === this.atlas.getTargets().length) {
-          this.fitness += this.rocket.getTravelled();
-        } else {
-          this.fitness +=
-            Math.max(0, p5.map(this.closest, 0, p5.width, p5.width, 0)) * 10;
-        }
-      });
-    } else {
-      this.fitness = Math.max(
+      if (journey.reached > 0) {
+        this.fitness += p5.map(journey.reached, 0, lifespan, lifespan, 0);
+        this.fitness += p5.width;
+      } else {
+        this.fitness += Math.max(
+          0,
+          p5.map(journey.closest, 0, p5.width, p5.width, 0)
+        );
+      }
+    });
+    if (this.bonus > 0) {
+      this.fitness += p5.map(
+        this.bonus,
         0,
-        p5.map(this.closest, 0, p5.width, p5.width, 0)
+        this.getRocketTravelled(),
+        this.getRocketTravelled(),
+        0
       );
     }
     if (this.crashed > 0) this.fitness /= 10;
@@ -93,20 +99,26 @@ export default class Rocketeer {
     });
 
     this.atlas.getTargets().forEach((target: Target, index: number) => {
+      if (this.visits === this.atlas.getTargets().length) {
+        this.bonus += 1;
+        return;
+      }
       const journey = this.logbook.get(index);
-      if (journey && journey.reached) return;
+      if (journey && journey.reached > 0) return;
 
       const distance = this.rocket.distanceTo(
         target.getPosition(),
         target.getDiameter()
       );
-      this.closest = Math.min(this.closest, distance);
+      const closest = Math.min(distance, journey ? journey.closest : Infinity);
       if (distance <= Math.random() * 20 - 5) {
-        this.closest = Infinity;
         this.visit = step;
-        this.visits.push(step);
+        this.visits += 1;
       }
-      this.logbook.set(index, { distance, reached: this.closest === Infinity });
+      this.logbook.set(index, {
+        closest,
+        reached: this.visit === step ? step : 0,
+      });
     });
 
     this.rocket.draw(this.champion);
@@ -121,7 +133,7 @@ export default class Rocketeer {
   }
 
   getVisits(): number {
-    return this.visits.length;
+    return this.visits;
   }
 
   getRocketPosition(): Vector {
@@ -130,5 +142,9 @@ export default class Rocketeer {
 
   getRocketTravelled(): number {
     return this.rocket.getTravelled();
+  }
+
+  toString(): string {
+    return `Travelled: ${this.getRocketTravelled()}`;
   }
 }

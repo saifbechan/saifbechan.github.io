@@ -52,7 +52,12 @@ export default class Atlas {
 
   render(p5: p5Types, statistics: MissionStatistics, trails: Vector[]): void {
     trails.forEach((trail) => {
-      this.trails.stroke(251, 145, 186, 30);
+      this.trails.stroke(
+        251,
+        145 + Math.floor(Math.min(40, statistics.generation / 10)),
+        186 + Math.floor(Math.min(60, statistics.generation / 20)),
+        Math.min(20, 30 - statistics.generation / 2)
+      );
       this.trails.point(trail.x, trail.y);
     });
     p5.imageMode(p5.CORNER);
