@@ -12,14 +12,8 @@ export default class Mission {
   private readonly images: Map<string, Image>;
 
   private readonly atlas: Atlas;
-  private readonly rocketeers: Map<number, Rocketeer> = new Map<
-    number,
-    Rocketeer
-  >();
-  private readonly instructions: Map<number, Instructions> = new Map<
-    number,
-    Instructions
-  >();
+  private readonly rocketeers: Rocketeer[] = [];
+  private instructions: Instructions[] = [];
   private champion: Rocketeer | undefined;
   private statistics: MissionStatistics;
   private trails: Vector[] = [];
@@ -67,15 +61,14 @@ export default class Mission {
             this.p5,
             this.lifespan,
             this.instructions,
-            this.champion?.getInstructions(),
             this.statistics.generation
           ),
           false
         );
       }
-      this.rocketeers.set(count, rocketeer);
+      this.rocketeers[count] = rocketeer;
     }
-    this.instructions.clear();
+    this.instructions = [];
   }
 
   evaluate(): void {
@@ -93,16 +86,13 @@ export default class Mission {
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       const weight = rocketeer.getFitness() * 100;
       for (let j = 0; j < weight; j += 1) {
-        this.instructions.set(
-          this.instructions.size,
-          rocketeer.getInstructions()
-        );
+        this.instructions.push(rocketeer.getInstructions());
       }
     });
 
     this.statistics = {
       ...this.statistics,
-      instructions: this.instructions.size,
+      instructions: this.instructions.length,
       fitness: Math.floor(maxfit),
       champion: this.champion?.toString() || '',
     };

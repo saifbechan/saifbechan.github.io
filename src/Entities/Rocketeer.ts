@@ -6,7 +6,7 @@ import Rocket from './Drawable/Rocket';
 import Target from './Drawable/Target';
 import Instructions from './Instructions';
 
-type JourneyType = { closest: number; reached: number };
+type JourneyType = { distance: number; closest: number; reached: number };
 export default class Rocketeer {
   private readonly atlas: Atlas;
   private readonly rocket: Rocket;
@@ -43,15 +43,16 @@ export default class Rocketeer {
     this.fitness = 0;
     this.atlas.getTargets().forEach((target: Target, index: number) => {
       const journey: JourneyType = this.logbook.get(index) || {
+        distance: 0,
         closest: Infinity,
         reached: 0,
       };
       if (journey.closest === Infinity) return;
 
       if (journey.reached > 0) {
-        this.fitness += p5.map(journey.reached, 0, lifespan, lifespan, 0);
         this.fitness += p5.width;
-      } else {
+        this.fitness += p5.map(journey.reached, 0, lifespan, lifespan, 0) * 10;
+      } else if (journey.closest === journey.distance) {
         this.fitness += Math.max(
           0,
           p5.map(journey.closest, 0, p5.width, p5.width, 0)
@@ -87,16 +88,20 @@ export default class Rocketeer {
 
     this.rocket.update(this.instructions.getStep(step));
 
-    if (this.rocket.isOffScreen() || this.rocket.getDamaged() === 10) {
-      this.crashed = step;
-      return;
-    }
-
     this.atlas.getObstacles().forEach((obstacle: Obstacle) => {
       if (this.rocket.hasCrashedInto(obstacle)) {
         this.crashed = step;
       }
     });
+
+    if (
+      this.crashed ||
+      this.rocket.isOffScreen() ||
+      this.rocket.getDamaged() === 10
+    ) {
+      this.crashed = step;
+      return;
+    }
 
     this.atlas.getTargets().forEach((target: Target, index: number) => {
       if (this.visits === this.atlas.getTargets().length) {
@@ -116,6 +121,7 @@ export default class Rocketeer {
         this.visits += 1;
       }
       this.logbook.set(index, {
+        distance,
         closest,
         reached: this.visit === step ? step : 0,
       });

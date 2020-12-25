@@ -8,43 +8,35 @@ class Instructions {
   constructor(
     p5: p5Types,
     lifespan: number,
-    instructions: Map<number, Instructions>,
-    champion: Instructions | undefined,
+    instructions: Instructions[],
     generation: number
   ) {
-    const maxforce = 0.1;
-
-    const templates: (
-      | Instructions
-      | undefined
-    )[] = Instructions.extractTemplates(instructions, champion);
-
     for (let i = 0; i < lifespan; i += 1) {
-      const template = templates[Math.round(Math.random())];
       const step =
-        template &&
-        Evolution.MUTATION_RATE / Math.max(1, generation / 10) < Math.random()
-          ? template.getStep(i)
+        instructions.length > 0 && this.shouldMutate(generation)
+          ? this.getStepWithRetry(p5, instructions, i)
           : Vector.random2D();
       this.steps[i] = p5.createVector(step.x, step.y);
-      this.steps[i].setMag(maxforce);
+      this.steps[i].setMag(Evolution.MAX_FORCE);
     }
+  }
+
+  private shouldMutate = (generation: number): boolean =>
+    Evolution.MUTATION_RATE / Math.max(1, generation / 10) < Math.random();
+
+  private getStepWithRetry(
+    p5: p5Types,
+    instructions: Instructions[],
+    index: number
+  ): Vector {
+    return (
+      p5.random(instructions).getStep(index) ||
+      this.getStepWithRetry(p5, instructions, index)
+    );
   }
 
   getStep(index: number): Vector {
     return this.steps[index];
-  }
-
-  private static extractTemplates(
-    instructions: Map<number, Instructions>,
-    champion: Instructions | undefined
-  ): (Instructions | undefined)[] {
-    return [
-      Evolution.CHAMPTION_RATE > Math.random()
-        ? champion
-        : instructions.get(Math.floor(Math.random() * instructions.size)),
-      instructions.get(Math.floor(Math.random() * instructions.size)),
-    ];
   }
 }
 
