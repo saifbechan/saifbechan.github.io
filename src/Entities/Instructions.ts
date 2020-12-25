@@ -9,7 +9,8 @@ class Instructions {
     p5: p5Types,
     lifespan: number,
     instructions: Map<number, Instructions>,
-    champion: Instructions | undefined
+    champion: Instructions | undefined,
+    generation: number
   ) {
     const maxforce = 0.1;
 
@@ -21,7 +22,8 @@ class Instructions {
     for (let i = 0; i < lifespan; i += 1) {
       const template = templates[Math.round(Math.random())];
       const step =
-        template && Evolution.MUTATION_RATE < Math.random()
+        template &&
+        Evolution.MUTATION_RATE / Math.max(1, generation / 10) < Math.random()
           ? template.getStep(i)
           : Vector.random2D();
       this.steps[i] = p5.createVector(step.x, step.y);

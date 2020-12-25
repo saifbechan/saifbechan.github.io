@@ -36,7 +36,7 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5.createCanvas(p5.windowWidth - 10, p5.windowHeight - 5).parent(
+    p5.createCanvas(p5.windowWidth - 4, p5.windowHeight - 4).parent(
       canvasParentRef
     );
 
@@ -44,7 +44,7 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
       p5,
       lifespan,
       images,
-      p5.createGraphics(p5.windowWidth - 10, p5.windowHeight - 5)
+      p5.createGraphics(p5.windowWidth - 4, p5.windowHeight - 4)
     );
     mission.init(rocketeers);
   };

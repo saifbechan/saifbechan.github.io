@@ -40,6 +40,7 @@ export default class Mission {
       generation: 0,
       fitness: 0,
       reached: 0,
+      maxtravel: 0,
     };
   }
 
@@ -65,7 +66,8 @@ export default class Mission {
             this.p5,
             this.lifespan,
             this.instructions,
-            this.champion?.getInstructions()
+            this.champion?.getInstructions(),
+            this.statistics.generation
           ),
           false
         );
@@ -102,22 +104,29 @@ export default class Mission {
       instructions: this.instructions.size,
       fitness: Math.floor(maxfit),
     };
+
+    // eslint-disable-next-line no-console
+    console.log(this.statistics);
   }
 
   run(step: number): void {
     this.atlas.render(this.p5, this.statistics, this.trails);
 
     let reached = 0;
+    let maxtravel = 0;
     this.trails = [];
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
       rocketeer.update(step);
-
       this.trails.push(rocketeer.getRocketPosition());
-      reached += rocketeer.getReached();
+      reached += rocketeer.getVisits();
+      maxtravel = Math.floor(
+        Math.max(maxtravel, rocketeer.getRocketTravelled())
+      );
     });
     this.statistics = {
       ...this.statistics,
       reached,
+      maxtravel,
     };
   }
 }

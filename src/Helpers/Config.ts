@@ -14,5 +14,5 @@ export enum Planets {
 
 export enum Evolution {
   MUTATION_RATE = 0.01,
-  CHAMPTION_RATE = 0,
+  CHAMPTION_RATE = 0.06,
 }
