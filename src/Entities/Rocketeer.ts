@@ -12,6 +12,7 @@ export default class Rocketeer {
   private readonly rocket: Rocket;
   private readonly instructions: Instructions;
 
+  private readonly champion: boolean;
   private readonly logbook: Map<number, JourneyType> = new Map<
     number,
     JourneyType
@@ -22,7 +23,6 @@ export default class Rocketeer {
   private fitness = 0;
   private bonus = 0;
   private penalty = 0;
-  private readonly champion: boolean;
 
   constructor(
     atlas: Atlas,
@@ -66,7 +66,7 @@ export default class Rocketeer {
     if (this.penalty > 0) {
       this.fitness /= this.penalty;
     }
-    if (this.crashed > 0) this.fitness /= 10;
+    if (this.crashed > 0) this.fitness /= 100;
 
     return this.fitness;
   }
@@ -99,25 +99,30 @@ export default class Rocketeer {
         this.bonus += 1;
         return;
       }
-      const journey = this.logbook.get(index);
-      if (journey && journey.reached > 0) return;
+      const journey: JourneyType = this.logbook.get(index) || {
+        distance: 0,
+        closest: Infinity,
+        reached: 0,
+      };
+      if (journey.reached > 0) return;
 
       const distance = this.rocket.distanceTo(
         target.getPosition(),
         target.getDiameter()
       );
-      const closest = Math.min(distance, journey ? journey.closest : Infinity);
-      if (journey && journey.closest < 200 && distance > 400) {
+      const closest = Math.min(distance, journey.closest);
+      if (journey.closest < 200 && distance > 400) {
         this.penalty = 10;
       }
-      if (distance <= Math.random() * 20) {
+      if (distance <= Math.random() * 20 - 5) {
         this.visit = step;
         this.visits += 1;
+        journey.reached = step;
       }
       this.logbook.set(index, {
+        ...journey,
         distance,
         closest,
-        reached: this.visit === step ? step : 0,
       });
     });
 

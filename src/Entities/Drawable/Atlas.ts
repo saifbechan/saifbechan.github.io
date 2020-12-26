@@ -30,18 +30,17 @@ export default class Atlas {
     this.targets.push(
       new Target(
         p5,
-        p5.createVector(p5.width / 2, 50),
-        25,
-        images.get(Planets.ORANGE)
-      )
-    );
-
-    this.targets.push(
-      new Target(
-        p5,
         p5.createVector((p5.width / 4) * 3, 150),
         40,
         images.get(Planets.RED)
+      )
+    );
+    this.targets.push(
+      new Target(
+        p5,
+        p5.createVector(p5.width / 2, 50),
+        25,
+        images.get(Planets.ORANGE)
       )
     );
   }
@@ -52,7 +51,7 @@ export default class Atlas {
 
   render(p5: p5Types, statistics: MissionStatistics, trails: Vector[]): void {
     trails.forEach((trail) => {
-      this.trails.stroke(251, 145, 186, 30);
+      this.trails.stroke(222, 99, 154, 30);
       this.trails.point(trail.x, trail.y);
     });
     p5.imageMode(p5.CORNER);
