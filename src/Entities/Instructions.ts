@@ -13,7 +13,7 @@ class Instructions {
   ) {
     for (let i = 0; i < lifespan; i += 1) {
       const step =
-        instructions.length > 0 && this.shouldMutate(generation)
+        instructions.length > 0 && this.shouldNotMutate(generation)
           ? this.getStepWithRetry(p5, instructions, i)
           : Vector.random2D();
       this.steps[i] = p5.createVector(step.x, step.y);
@@ -21,8 +21,8 @@ class Instructions {
     }
   }
 
-  private shouldMutate = (generation: number): boolean =>
-    Evolution.MUTATION_RATE / Math.max(1, generation / 10) < Math.random();
+  private shouldNotMutate = (generation: number): boolean =>
+    Math.random() > Evolution.MUTATION_RATE / Math.min(1, generation + 1);
 
   private getStepWithRetry(
     p5: p5Types,

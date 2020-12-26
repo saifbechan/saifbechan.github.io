@@ -50,7 +50,7 @@ export default class Rocketeer {
       if (journey.closest === Infinity) return;
 
       if (journey.reached > 0) {
-        this.fitness += p5.width;
+        this.fitness += p5.width * 2;
         this.fitness += p5.map(journey.reached, 0, lifespan, lifespan, 0) * 10;
       } else if (journey.closest === journey.distance) {
         this.fitness += Math.max(
@@ -68,10 +68,7 @@ export default class Rocketeer {
         0
       );
     }
-    if (this.crashed > 0) this.fitness /= 10;
-    if (this.rocket.getDamaged() > 0) {
-      this.fitness /= this.rocket.getDamaged() * 10;
-    }
+    if (this.crashed > 0) this.fitness /= 100;
 
     return this.fitness;
   }
@@ -94,17 +91,14 @@ export default class Rocketeer {
       }
     });
 
-    if (
-      this.crashed ||
-      this.rocket.isOffScreen() ||
-      this.rocket.getDamaged() === 10
-    ) {
+    if (this.crashed || this.rocket.isOffScreen()) {
       this.crashed = step;
       return;
     }
 
     this.atlas.getTargets().forEach((target: Target, index: number) => {
       if (this.visits === this.atlas.getTargets().length) {
+        console.log('reached all!');
         this.bonus += 1;
         return;
       }
