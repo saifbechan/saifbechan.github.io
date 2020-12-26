@@ -21,6 +21,7 @@ export default class Rocketeer {
   private crashed = 0;
   private fitness = 0;
   private bonus = 0;
+  private penalty = 0;
   private readonly champion: boolean;
 
   constructor(
@@ -60,15 +61,12 @@ export default class Rocketeer {
       }
     });
     if (this.bonus > 0) {
-      this.fitness += p5.map(
-        this.bonus,
-        0,
-        this.getRocketTravelled(),
-        this.getRocketTravelled(),
-        0
-      );
+      this.fitness *= this.bonus;
     }
-    if (this.crashed > 0) this.fitness /= 100;
+    if (this.penalty > 0) {
+      this.fitness /= this.penalty;
+    }
+    if (this.crashed > 0) this.fitness /= 10;
 
     return this.fitness;
   }
@@ -91,14 +89,13 @@ export default class Rocketeer {
       }
     });
 
-    if (this.crashed || this.rocket.isOffScreen()) {
+    if (this.crashed > 0 || this.rocket.isOffScreen()) {
       this.crashed = step;
       return;
     }
 
     this.atlas.getTargets().forEach((target: Target, index: number) => {
       if (this.visits === this.atlas.getTargets().length) {
-        console.log('reached all!');
         this.bonus += 1;
         return;
       }
@@ -110,7 +107,10 @@ export default class Rocketeer {
         target.getDiameter()
       );
       const closest = Math.min(distance, journey ? journey.closest : Infinity);
-      if (distance <= Math.random() * 20 - 5) {
+      if (journey && journey.closest < 200 && distance > 400) {
+        this.penalty = 10;
+      }
+      if (distance <= Math.random() * 20) {
         this.visit = step;
         this.visits += 1;
       }
