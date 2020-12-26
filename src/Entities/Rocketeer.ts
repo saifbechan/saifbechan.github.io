@@ -51,8 +51,9 @@ export default class Rocketeer {
       if (journey.closest === Infinity) return;
 
       if (journey.reached > 0) {
-        this.fitness += p5.width * 2;
+        this.fitness += p5.width * this.visits;
         this.fitness += p5.map(journey.reached, 0, lifespan, lifespan, 0) * 10;
+        this.fitness *= Math.min(1, this.visits);
       } else if (journey.closest === journey.distance) {
         this.fitness += Math.max(
           0,
