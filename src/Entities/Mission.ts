@@ -51,7 +51,7 @@ export default class Mission {
           this.atlas,
           new Rocket(this.p5, this.images),
           this.champion.getInstructions(),
-          true
+          this.champion.countAndReturn()
         );
       } else {
         rocketeer = new Rocketeer(
@@ -63,7 +63,7 @@ export default class Mission {
             this.instructions,
             this.statistics.generation
           ),
-          false
+          0
         );
       }
       this.rocketeers[count] = rocketeer;
@@ -77,7 +77,8 @@ export default class Mission {
       const fitness = rocketeer.calcFitness(this.p5, this.lifespan);
       if (fitness > maxfit) {
         maxfit = fitness;
-        this.champion = rocketeer;
+        this.champion =
+          rocketeer.countAndReturn() > 10 ? this.champion : rocketeer;
       }
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {

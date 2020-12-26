@@ -30,57 +30,33 @@ export default class Atlas {
     this.targets.push(
       new Target(
         p5,
-        p5.createVector((p5.width / 4) * 3, 150),
+        p5.createVector((p5.width / 7) * 2, 270),
         40,
-        images.get(Planets.RED)
-      )
-    );
-    this.targets.push(
-      new Target(
-        p5,
-        p5.createVector(p5.width / 2, 50),
-        35,
-        images.get(Planets.ORANGE)
-      )
-    );
-    this.targets.push(
-      new Target(
-        p5,
-        p5.createVector((p5.width / 5) * 3, 200),
-        45,
-        images.get(Planets.BIG_BLUE)
-      )
-    );
-    this.targets.push(
-      new Target(
-        p5,
-        p5.createVector((p5.width / 7) * 2, 220),
-        30,
         images.get(Planets.LITTLE_BLUE)
       )
     );
     this.targets.push(
       new Target(
         p5,
-        p5.createVector(p5.width / 7, 440),
-        20,
+        p5.createVector(p5.width / 2, 125),
+        50,
+        images.get(Planets.BIG_BLUE)
+      )
+    );
+    this.targets.push(
+      new Target(
+        p5,
+        p5.createVector((p5.width / 5) * 3, 220),
+        35,
         images.get(Planets.BROWN)
       )
     );
     this.targets.push(
       new Target(
         p5,
-        p5.createVector((p5.width / 7) * 6, 550),
-        15,
-        images.get(Planets.LITTLE_PRUPLE)
-      )
-    );
-    this.targets.push(
-      new Target(
-        p5,
-        p5.createVector((p5.width / 7) * 2.5, 470),
-        10,
-        images.get(Planets.LITTLE_GREEN)
+        p5.createVector((p5.width / 4) * 3, 200),
+        45,
+        images.get(Planets.RED)
       )
     );
   }

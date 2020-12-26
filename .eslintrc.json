@@ -43,7 +43,7 @@
     "no-multiple-empty-lines": ["error", {
       "max": 1
     }],
-    "object-curly-newline": ["error", { "multiline": true }],
+    "object-curly-newline": "off",
     "operator-linebreak": "off",
     "function-paren-newline": "off",
     "implicit-arrow-linebreak": "off",
