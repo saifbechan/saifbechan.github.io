@@ -1,5 +1,6 @@
 export enum Obstacles {
   AI_ROCKETEER = 'ai-rocketeers',
+  SUN = 'planet-sun',
 }
 
 export enum Ships {

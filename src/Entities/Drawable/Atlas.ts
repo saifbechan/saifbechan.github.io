@@ -5,6 +5,7 @@ import { MissionStatistics } from '../../Types/Statistics.type';
 import Layout from './Layout/Layout';
 import Statistics from './Layout/Statistics';
 import Obstacle from './Obstacles/Obstacle';
+import Sun from './Obstacles/Sun';
 import Title from './Obstacles/Title';
 import Target from './Target';
 
@@ -31,8 +32,8 @@ export default class Atlas {
       new Target(
         p5,
         p5.createVector((p5.width / 7) * 2, 270),
-        40,
-        images.get(Planets.LITTLE_BLUE)
+        45,
+        images.get(Planets.RED)
       )
     );
     this.targets.push(
@@ -55,8 +56,8 @@ export default class Atlas {
       new Target(
         p5,
         p5.createVector((p5.width / 4) * 3, 200),
-        45,
-        images.get(Planets.RED)
+        40,
+        images.get(Planets.LITTLE_BLUE)
       )
     );
 
@@ -66,7 +67,11 @@ export default class Atlas {
   }
 
   private createObstacles(p5: p5Types, images: Map<string, Image>) {
-    this.obstacles.push(new Title(p5, images.get(Obstacles.AI_ROCKETEER)));
+    const image = p5.createImage(1, 1);
+    this.obstacles.push(
+      new Title(p5, images.get(Obstacles.AI_ROCKETEER) || image)
+    );
+    this.obstacles.push(new Sun(p5, images.get(Obstacles.SUN) || image));
   }
 
   render(p5: p5Types, statistics: MissionStatistics, trails: Vector[]): void {

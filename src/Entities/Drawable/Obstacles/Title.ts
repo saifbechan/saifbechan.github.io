@@ -7,12 +7,12 @@ export default class Title extends Obstacle {
   private readonly p5: p5Types;
   private readonly pos: Vector;
 
-  private readonly image: Image | Graphics | undefined;
+  private readonly image: Image;
   private readonly scale;
   private readonly height;
   private width = 0;
 
-  constructor(p5: p5Types, image: Image | Graphics | undefined) {
+  constructor(p5: p5Types, image: Image) {
     super();
     this.p5 = p5;
     this.image = image;
