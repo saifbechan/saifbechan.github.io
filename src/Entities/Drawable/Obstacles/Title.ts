@@ -1,4 +1,4 @@
-import p5Types, { Graphics, Image, Vector } from 'p5';
+import p5Types, { Image, Vector } from 'p5';
 
 import { getViewport, Viewport } from '../../../Helpers/Viewport';
 import Obstacle from './Obstacle';
