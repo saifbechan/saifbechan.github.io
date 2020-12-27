@@ -1,11 +1,13 @@
 import p5Types, { Graphics, Image, Vector } from 'p5';
 
 import { Ships } from '../../Helpers/Config';
+import Explosion from './Explosion';
 import Obstacle from './Obstacles/Obstacle';
 
 export default class Rocket {
   private readonly p5: p5Types;
   private readonly images: Map<string, Image | Graphics>;
+  private explosion: Explosion;
 
   private travelled = 0;
 
@@ -16,6 +18,7 @@ export default class Rocket {
   constructor(p5: p5Types, images: Map<string, Image | Graphics>) {
     this.p5 = p5;
     this.images = images;
+    this.explosion = new Explosion(p5, images);
 
     this.pos = p5.createVector(p5.width / 2, p5.height - 10);
     this.vel = p5.createVector();
@@ -92,5 +95,9 @@ export default class Rocket {
         this.p5.image(this.images.get(Ships.ROCKETEER) || image, 0, 0, 30, 30);
         break;
     }
+  }
+
+  crash(): void {
+    this.explosion.draw(this.p5, this.pos);
   }
 }

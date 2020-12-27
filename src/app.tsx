@@ -5,7 +5,7 @@ import p5Types, { Image } from 'p5';
 
 import Contact from './components/contact';
 import Mission from './Entities/Mission';
-import { Obstacles, Planets, Ships } from './Helpers/Config';
+import { Explosion, Obstacles, Planets, Ships } from './Helpers/Config';
 
 import './app.scss';
 
@@ -33,6 +33,11 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
     Object.values(Obstacles).forEach((layout: string) => {
       images.set(layout, p5.loadImage(`images/${layout}.png`));
     });
+
+    images.set(
+      Explosion.SPRITE,
+      p5.loadImage(`images/${Explosion.SPRITE}.png`)
+    );
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {

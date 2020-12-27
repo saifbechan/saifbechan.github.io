@@ -85,6 +85,7 @@ export default class Rocketeer {
 
   update(step: number): void {
     if (this.crashed > 0) {
+      this.rocket.crash();
       return;
     }
 

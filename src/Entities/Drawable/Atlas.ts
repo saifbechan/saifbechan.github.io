@@ -59,6 +59,10 @@ export default class Atlas {
         images.get(Planets.RED)
       )
     );
+
+    if (Math.random() <= 0.5) {
+      this.targets.reverse();
+    }
   }
 
   private createObstacles(p5: p5Types, images: Map<string, Image>) {
