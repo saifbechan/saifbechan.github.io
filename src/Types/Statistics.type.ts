@@ -5,4 +5,5 @@ export type MissionStatistics = {
   fitness: number;
   maxtravel: number;
   champion: string;
+  lifespan: number;
 };

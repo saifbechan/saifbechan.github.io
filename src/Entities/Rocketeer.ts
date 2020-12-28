@@ -63,17 +63,18 @@ export default class Rocketeer {
       }
     });
 
-    const closest = this.logbook.get(this.closest || -1) || {
+    const closest = this.closest === undefined ? -1 : this.closest;
+    const journey = this.logbook.get(closest) || {
       ...this.journey,
     };
 
     if (this.visits === this.atlas.getTargets().length) {
       this.fitness **= 2;
-    } else if (closest.distance > 0) {
-      this.fitness += p5.map(closest.distance, 0, lifespan, lifespan, 0);
+    } else if (journey.distance > 0) {
+      this.fitness += p5.map(journey.distance, 0, lifespan, lifespan, 0);
     }
 
-    this.fitness *= this.visits > 1 ? this.visits + 1 : 1;
+    this.fitness *= Math.max(1, this.visits ** 2);
 
     if (this.penalty > 0) {
       this.fitness /= this.penalty;

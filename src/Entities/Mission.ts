@@ -8,7 +8,6 @@ import Rocketeer from './Rocketeer';
 
 export default class Mission {
   private readonly p5: p5Types;
-  private readonly lifespan: number;
   private readonly images: Map<string, Image>;
 
   private readonly atlas: Atlas;
@@ -18,14 +17,8 @@ export default class Mission {
   private statistics: MissionStatistics;
   private trails: Vector[] = [];
 
-  constructor(
-    p5: p5Types,
-    lifespan: number,
-    images: Map<string, Image>,
-    trails: Graphics
-  ) {
+  constructor(p5: p5Types, images: Map<string, Image>, trails: Graphics) {
     this.p5 = p5;
-    this.lifespan = lifespan;
     this.images = images;
 
     this.atlas = new Atlas(p5, images, trails);
@@ -36,13 +29,15 @@ export default class Mission {
       reached: 0,
       maxtravel: 0,
       champion: '',
+      lifespan: 0,
     };
   }
 
-  init(rocketeers: number): void {
+  init(generation: number, lifespan: number, rocketeers: number): void {
     this.statistics = {
       ...this.statistics,
-      generation: (this.statistics.generation += 1),
+      generation,
+      lifespan,
     };
     for (let count = 0; count < rocketeers; count += 1) {
       let rocketeer: Rocketeer;
@@ -57,12 +52,7 @@ export default class Mission {
         rocketeer = new Rocketeer(
           this.atlas,
           new Rocket(this.p5, this.images),
-          new Instructions(
-            this.p5,
-            this.lifespan,
-            this.instructions,
-            this.statistics.generation
-          ),
+          new Instructions(this.p5, lifespan, this.instructions),
           0
         );
       }
@@ -71,14 +61,14 @@ export default class Mission {
     this.instructions = [];
   }
 
-  evaluate(): void {
+  evaluate(lifespan: number): void {
     let maxfit = 0;
     this.rocketeers.forEach((rocketeer: Rocketeer) => {
-      const fitness = rocketeer.calcFitness(this.p5, this.lifespan);
+      const fitness = rocketeer.calcFitness(this.p5, lifespan);
       if (fitness > maxfit) {
         maxfit = fitness;
         this.champion =
-          rocketeer.countAndReturn() > 10 ? this.champion : rocketeer;
+          rocketeer.countAndReturn() > 5 ? this.champion : rocketeer;
       }
     });
     this.rocketeers.forEach((rocketeer: Rocketeer) => {

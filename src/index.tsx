@@ -4,6 +4,6 @@ import './index.scss';
 import App from './app';
 
 render(
-  <App lifespan={1000} rocketeers={100} />,
+  <App lifespan={600} rocketeers={100} />,
   document.getElementById('root')
 );

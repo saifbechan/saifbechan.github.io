@@ -64,6 +64,15 @@ export default class Atlas {
     if (Math.random() <= 0.5) {
       this.targets.reverse();
     }
+
+    this.targets.push(
+      new Target(
+        p5,
+        p5.createVector(p5.width / 2, p5.height),
+        40,
+        p5.createImage(1, 1)
+      )
+    );
   }
 
   private createObstacles(p5: p5Types, images: Map<string, Image>) {

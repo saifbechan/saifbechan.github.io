@@ -15,11 +15,13 @@ interface MissionProps {
 }
 
 const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
+  let step = 0;
+  let steps = lifespan;
+  let generation = 1;
+
   let mission: Mission;
 
   const images: Map<string, Image> = new Map<string, Image>();
-
-  let step = 0;
 
   const preload = (p5: p5Types) => {
     Object.values(Ships).forEach((ship: string) => {
@@ -47,21 +49,32 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
 
     mission = new Mission(
       p5,
-      lifespan,
       images,
       p5.createGraphics(p5.windowWidth - 4, p5.windowHeight - 4)
     );
-    mission.init(rocketeers);
+    mission.init(generation, steps, rocketeers);
   };
 
   const draw = (p5: p5Types) => {
     p5.background(20, 21, 38);
     mission.run(step);
     step += 1;
-    if (step === lifespan) {
-      mission.evaluate();
-      mission.init(rocketeers);
+    if (step === steps) {
+      mission.evaluate(steps);
+
       step = 0;
+      generation += 1;
+      if (generation >= 100) {
+        steps = lifespan + 1000;
+      } else if (generation >= 50) {
+        steps = lifespan + 800;
+      } else if (generation >= 30) {
+        steps = lifespan + 400;
+      } else if (generation >= 10) {
+        steps = lifespan + 200;
+      }
+
+      mission.init(generation, steps, rocketeers);
     }
   };
 

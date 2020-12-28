@@ -15,6 +15,7 @@ export default class Statistics implements Layout {
       `Framerate: ${Math.floor(p5.frameRate())}`,
       `Instruction sets: ${statistics.instructions}`,
       `Generation: ${statistics.generation}`,
+      `Lifespan: ${statistics.lifespan}`,
       `Fitness level: ${statistics.fitness}`,
       `Planets reached: ${statistics.reached}`,
     ];

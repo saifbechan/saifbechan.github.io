@@ -17,7 +17,7 @@ export enum Planets {
 
 export enum Evolution {
   MUTATION_RATE = 0.04,
-  MAX_FORCE = 0.09,
+  MAX_FORCE = 0.1,
 }
 
 export enum Explosion {
