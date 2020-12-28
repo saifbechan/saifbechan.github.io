@@ -74,12 +74,12 @@ export default class Rocketeer {
       this.fitness += p5.map(journey.distance, 0, lifespan, lifespan, 0);
     }
 
-    this.fitness *= Math.max(1, this.visits ** 2);
+    this.fitness *= Math.max(1, 10 ** this.visits);
 
     if (this.penalty > 0) {
       this.fitness /= this.penalty;
     }
-    if (this.crashed > 0) this.fitness /= 10;
+    if (this.crashed > 0) this.fitness /= Math.max(10, 10 ** this.visits - 1);
 
     return this.fitness;
   }
