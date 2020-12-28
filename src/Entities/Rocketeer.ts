@@ -27,11 +27,9 @@ export default class Rocketeer {
     JourneyType
   >();
   private closest: number | undefined = undefined;
-  private visit = Infinity;
   private visits = 0;
   private crashed = 0;
   private fitness = 0;
-  private penalty = 0;
 
   constructor(
     atlas: Atlas,
@@ -76,10 +74,9 @@ export default class Rocketeer {
 
     this.fitness *= Math.max(1, 10 ** this.visits);
 
-    if (this.penalty > 0) {
-      this.fitness /= this.penalty;
+    if (this.crashed > 0 && this.visits !== this.atlas.getTargets().length) {
+      this.fitness /= Math.max(10, 10 ** this.visits);
     }
-    if (this.crashed > 0) this.fitness /= Math.max(10, 10 ** this.visits - 1);
 
     return this.fitness;
   }
@@ -87,11 +84,6 @@ export default class Rocketeer {
   update(step: number): void {
     if (this.crashed > 0) {
       this.rocket.crash();
-      return;
-    }
-
-    if (this.visit < Infinity && this.visit + 25 > step) {
-      this.rocket.draw(this.champion > 0);
       return;
     }
 
@@ -122,13 +114,9 @@ export default class Rocketeer {
         target.getDiameter()
       );
       const closest = Math.min(distance, journey.closest);
-      if (journey.closest < 200 && distance > 400) {
-        this.penalty = 10;
-      }
-      if (index === this.closest && distance <= Math.random() * 20 - 5) {
+      if (index === this.closest && distance <= target.getDiameter()) {
         journey.reached = step;
         this.closest = undefined;
-        this.visit = step;
         this.visits += 1;
       }
       this.logbook.set(index, {

@@ -68,7 +68,7 @@ export default class Atlas {
     this.targets.push(
       new Target(
         p5,
-        p5.createVector(p5.width / 2, p5.height),
+        p5.createVector(p5.width / 2, p5.height - 20),
         40,
         p5.createImage(1, 1)
       )
