@@ -1,9 +1,7 @@
-name: saifbechan.github.io ci
+name: saifbechan.github.io CD
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:

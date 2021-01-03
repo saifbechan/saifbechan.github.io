@@ -1,0 +1,32 @@
+name: saifbechan.github.io CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Unit tests & Linters (Node ${{ matrix.node-version }})
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: |
+          yarn
+          yarn lint
+          CI=true yarn test
+
+      - name: Cypress end-to-end tests
+        uses: cypress-io/github-action@v2
+        with:
+          build: yarn build
+          start: yarn start
+          wait-on: http://localhost:3000
