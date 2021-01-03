@@ -1,5 +1,5 @@
 # Rocketeers :rocket::man_astronaut::woman_astronaut:
-![saifbechan.github.io CI](https://github.com/saifbechan/saifbechan.github.io/workflows/saifbechan.github.io%20CI/badge.svg?branch=main)
+![saifbechan.github.io ci](https://github.com/saifbechan/saifbechan.github.io/workflows/saifbechan.github.io%20ci/badge.svg)
 
 ## What do the rocketeers do?
 The rocketeers use a genetic learning algorithm do explore a map of targets and obstables. The main purpose of the Rocketeer is to explore as much planets without getting hit.
