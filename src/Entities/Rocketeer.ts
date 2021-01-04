@@ -1,4 +1,4 @@
-import p5Types, { Vector } from 'p5';
+import P5, { Vector } from 'p5';
 
 import Atlas from './Drawable/Atlas';
 import Obstacle from './Drawable/Obstacles/Obstacle';
@@ -47,7 +47,7 @@ export default class Rocketeer {
     this.fitness /= maxfit;
   }
 
-  calcFitness(p5: p5Types, lifespan: number): number {
+  calcFitness(p5: P5, lifespan: number): number {
     this.fitness = 0;
     this.atlas.getTargets().forEach((target: Target, index: number) => {
       const journey: JourneyType = this.logbook.get(index) || {

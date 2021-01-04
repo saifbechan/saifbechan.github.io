@@ -1,15 +1,15 @@
-import p5Types, { Image, Vector } from 'p5';
+import P5, { Image, Vector } from 'p5';
 
 import Obstacle from './Obstacle';
 
 export default class Sun extends Obstacle {
-  private readonly p5: p5Types;
+  private readonly p5: P5;
   private readonly pos: Vector;
 
   private readonly image: Image;
   private readonly diameter: number;
 
-  constructor(p5: p5Types, image: Image) {
+  constructor(p5: P5, image: Image) {
     super();
     this.p5 = p5;
     this.image = image;

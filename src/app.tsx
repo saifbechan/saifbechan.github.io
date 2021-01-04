@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Sketch from 'react-p5';
 
-import p5Types, { Image } from 'p5';
+import P5, { Image } from 'p5';
 
 import Contact from './components/contact';
 import Mission from './Entities/Mission';
@@ -23,7 +23,7 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
 
   const images: Map<string, Image> = new Map<string, Image>();
 
-  const preload = (p5: p5Types) => {
+  const preload = (p5: P5) => {
     Object.values(Ships).forEach((ship: string) => {
       images.set(ship, p5.loadImage(`images/${ship}.png`));
     });
@@ -42,7 +42,7 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
     );
   };
 
-  const setup = (p5: p5Types, canvasParentRef: Element) => {
+  const setup = (p5: P5, canvasParentRef: Element) => {
     p5.createCanvas(p5.windowWidth - 4, p5.windowHeight - 4).parent(
       canvasParentRef
     );
@@ -55,7 +55,7 @@ const App: FC<MissionProps> = ({ lifespan, rocketeers }: MissionProps) => {
     mission.init(generation, steps, rocketeers);
   };
 
-  const draw = (p5: p5Types) => {
+  const draw = (p5: P5) => {
     p5.background(20, 21, 38);
     mission.run(step);
     step += 1;

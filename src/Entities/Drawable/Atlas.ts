@@ -1,4 +1,4 @@
-import p5Types, { Graphics, Image, Vector } from 'p5';
+import P5, { Graphics, Image, Vector } from 'p5';
 
 import { Obstacles, Planets } from '../../Helpers/Config';
 import { MissionStatistics } from '../../Types/Statistics.type';
@@ -15,7 +15,7 @@ export default class Atlas {
   private readonly obstacles: Obstacle[] = [];
   private readonly trails: Graphics;
 
-  constructor(p5: p5Types, images: Map<string, Image>, trails: Graphics) {
+  constructor(p5: P5, images: Map<string, Image>, trails: Graphics) {
     this.createLayouts(p5);
     this.createTargets(p5, images);
     this.createObstacles(p5, images);
@@ -23,11 +23,11 @@ export default class Atlas {
     this.trails = trails;
   }
 
-  private createLayouts(p5: p5Types) {
+  private createLayouts(p5: P5) {
     this.layouts.push(new Statistics(p5));
   }
 
-  private createTargets(p5: p5Types, images: Map<string, Image | Graphics>) {
+  private createTargets(p5: P5, images: Map<string, Image | Graphics>) {
     this.targets.push(
       new Target(
         p5,
@@ -75,7 +75,7 @@ export default class Atlas {
     );
   }
 
-  private createObstacles(p5: p5Types, images: Map<string, Image>) {
+  private createObstacles(p5: P5, images: Map<string, Image>) {
     const image = p5.createImage(1, 1);
     this.obstacles.push(
       new Title(p5, images.get(Obstacles.AI_ROCKETEER) || image)
@@ -83,7 +83,7 @@ export default class Atlas {
     this.obstacles.push(new Sun(p5, images.get(Obstacles.SUN) || image));
   }
 
-  render(p5: p5Types, statistics: MissionStatistics, trails: Vector[]): void {
+  render(p5: P5, statistics: MissionStatistics, trails: Vector[]): void {
     trails.forEach((trail) => {
       this.trails.stroke(222, 99, 154, 30);
       this.trails.point(trail.x, trail.y);

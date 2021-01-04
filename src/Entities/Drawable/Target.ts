@@ -1,13 +1,13 @@
-import p5Types, { Graphics, Image, Vector } from 'p5';
+import P5, { Graphics, Image, Vector } from 'p5';
 
 export default class Target {
-  private readonly p5: p5Types;
+  private readonly p5: P5;
   private readonly pos: Vector;
   private readonly diameter: number;
   private readonly image: Image | Graphics | undefined;
 
   constructor(
-    p5: p5Types,
+    p5: P5,
     pos: Vector,
     diameter: number,
     image: Image | Graphics | undefined

@@ -1,4 +1,4 @@
-import p5Types, { Graphics, Image, Vector } from 'p5';
+import P5, { Graphics, Image, Vector } from 'p5';
 
 import { MissionStatistics } from '../Types/Statistics.type';
 import Atlas from './Drawable/Atlas';
@@ -7,7 +7,7 @@ import Instructions from './Instructions';
 import Rocketeer from './Rocketeer';
 
 export default class Mission {
-  private readonly p5: p5Types;
+  private readonly p5: P5;
   private readonly images: Map<string, Image>;
 
   private readonly atlas: Atlas;
@@ -17,7 +17,7 @@ export default class Mission {
   private statistics: MissionStatistics;
   private trails: Vector[] = [];
 
-  constructor(p5: p5Types, images: Map<string, Image>, trails: Graphics) {
+  constructor(p5: P5, images: Map<string, Image>, trails: Graphics) {
     this.p5 = p5;
     this.images = images;
 

@@ -1,11 +1,11 @@
-import p5Types, { Vector } from 'p5';
+import P5, { Vector } from 'p5';
 
 import { Evolution } from '../Helpers/Config';
 
 class Instructions {
   private readonly steps: Vector[];
 
-  constructor(p5: p5Types, lifespan: number, instructions: Instructions[]) {
+  constructor(p5: P5, lifespan: number, instructions: Instructions[]) {
     const steps = this.crossover(
       p5,
       lifespan,
@@ -17,7 +17,7 @@ class Instructions {
   }
 
   private crossover = (
-    p5: p5Types,
+    p5: P5,
     lifespan: number,
     current: Instructions,
     partner: Instructions
@@ -39,7 +39,7 @@ class Instructions {
     return steps;
   };
 
-  private mutate = (p5: p5Types, steps: Vector[]): Vector[] =>
+  private mutate = (p5: P5, steps: Vector[]): Vector[] =>
     steps.map((step) => {
       if (this.shouldMutate()) {
         return this.createRandom(p5);
@@ -49,12 +49,12 @@ class Instructions {
 
   private shouldMutate = (): boolean => Math.random() < Evolution.MUTATION_RATE;
 
-  private createRandom = (p5: p5Types): Vector => {
+  private createRandom = (p5: P5): Vector => {
     const step = Vector.random2D();
     return p5.createVector(step.x, step.y).setMag(Evolution.MAX_FORCE);
   };
 
-  private createFromPrevious = (p5: p5Types, step: Vector): Vector =>
+  private createFromPrevious = (p5: P5, step: Vector): Vector =>
     p5.createVector(step.x, step.y);
 
   getLength(): number {

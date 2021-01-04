@@ -1,4 +1,4 @@
-import p5Types, { Vector } from 'p5';
+import P5, { Vector } from 'p5';
 
 import { MissionStatistics } from '../../../Types/Statistics.type';
 import Layout from './Layout';
@@ -6,11 +6,11 @@ import Layout from './Layout';
 export default class Statistics implements Layout {
   private pos: Vector;
 
-  constructor(p5: p5Types) {
+  constructor(p5: P5) {
     this.pos = p5.createVector(20, p5.height - 20);
   }
 
-  draw(p5: p5Types, statistics: MissionStatistics): void {
+  draw(p5: P5, statistics: MissionStatistics): void {
     const texts: string[] = [
       `Framerate: ${Math.floor(p5.frameRate())}`,
       `Instruction sets: ${statistics.instructions}`,
