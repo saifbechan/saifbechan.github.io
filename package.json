@@ -78,7 +78,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^6.2.0"
+    "cypress": "^6.2.1"
   },
   "engines": {
     "node": ">= 15.5.0 <16"
