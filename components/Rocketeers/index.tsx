@@ -67,14 +67,14 @@ export default function Rocketeers(): null {
 
           step = 0;
           generation += 1;
-          if (generation >= 100) {
-            steps += 200;
-          } else if (generation >= 50) {
-            steps += 400;
-          } else if (generation >= 30) {
-            steps += 200;
-          } else if (generation >= 10) {
-            steps += 200;
+          if (generation >= 80) {
+            steps = 1600;
+          } else if (generation >= 40) {
+            steps = 1400;
+          } else if (generation >= 20) {
+            steps = 1000;
+          } else if (generation >= 5) {
+            steps = 800;
           }
 
           mission.init(generation, steps, rocketeers);
