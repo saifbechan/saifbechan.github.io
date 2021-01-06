@@ -39,14 +39,9 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           }}
         />
         <meta
-          name="description"
-          content="Main website of Saif Bechan showcasing some awesome web development skills."
-        />
-        <meta
           name="keywords"
           content="react, typescript, javascript, p5js, github, nextjs, machine learning, genetic algorithm"
         />
-        <title>saifbechan.me :: rocketeer</title>
       </Head>
       <Component {...pageProps} />
     </>
