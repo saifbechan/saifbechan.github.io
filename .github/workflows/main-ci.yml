@@ -21,12 +21,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           yarn
+          yarn tsc
+          yarn tsc:cypress
           yarn lint
-          CI=true yarn test
+          yarn style
+          yarn test
+          yarn build
+          yarn export
+        env:
+          CI: true
 
       - name: Cypress end-to-end tests
         uses: cypress-io/github-action@v2
         with:
           build: yarn build
-          start: yarn start
-          wait-on: http://localhost:3000
+          start: yarn start:test
+          wait-on: http://localhost:3030
