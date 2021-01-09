@@ -18,7 +18,8 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "cy:test": "start-server-and-test start:test 3030 cy:run",
-    "tsc:cypress": "tsc --project cypress/tsconfig.json --pretty --noEmit"
+    "tsc:cypress": "tsc --project cypress/tsconfig.json --pretty --noEmit",
+    "clean": "rimraf out .next"
   },
   "husky": {
     "hooks": {
@@ -28,6 +29,7 @@
   },
   "dependencies": {
     "next": "10.0.5",
+    "next-pwa": "^5.0.2",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },
@@ -65,6 +67,7 @@
     "p5": "^1.2.0",
     "prettier": "^2.2.1",
     "react-test-renderer": "^17.0.1",
+    "rimraf": "^3.0.2",
     "sass": "^1.32.2",
     "start-server-and-test": "^1.11.7",
     "stylelint": "^13.8.0",

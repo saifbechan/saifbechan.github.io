@@ -11,7 +11,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#141526" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="64x64 32x32 24x24 16x16" />
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />

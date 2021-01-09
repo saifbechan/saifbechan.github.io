@@ -13,9 +13,9 @@ const Index: NextPage = () => {
   return (
     <>
       <NextSeo
-        title="saifbechan.me :: rocketeer 🚀"
+        title="saifbechan.me :: rocketeers 🚀"
         description="Main website of Saif Bechan showcasing some awesome web development skills. Using a genetic algorithm these rocketeers will find their path across the galaxy."
-        canonical="https://www.canonical.ie/"
+        canonical="https://saifbechan.me"
         openGraph={{
           url: 'https://saifbechan.me',
           title: 'saifbechan.me :: rocketeer 🚀',
