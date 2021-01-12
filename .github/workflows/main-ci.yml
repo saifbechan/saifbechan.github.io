@@ -37,3 +37,8 @@ jobs:
           build: yarn build
           start: yarn start:test
           wait-on: http://localhost:3030
+
+      - name: Dependabot auto-mrge
+        uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          github-token: ${{ secrets.mytoken }}
