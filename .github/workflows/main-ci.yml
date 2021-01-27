@@ -38,7 +38,13 @@ jobs:
           start: yarn start:test
           wait-on: http://localhost:3030
 
-      - name: Dependabot auto-mrge
+      - name: Dependabot auto-approve
+        uses: hmarr/auto-approve-action@v2.0.0
+        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dependabot auto-merge
         uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
