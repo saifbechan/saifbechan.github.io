@@ -1,0 +1,5 @@
+updateBranch: true
+deleteBranchAfterMerge: true
+mergeMethod: rebase
+requiredLabels:
+  - dependencies
