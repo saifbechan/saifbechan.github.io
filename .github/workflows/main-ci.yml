@@ -2,23 +2,21 @@ name: saifbechan.github.io CI
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14, 15]
+  worker:
+    runs-on: ubuntu-20.04
+
     steps:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
 
       - name: Unit tests & Linters (Node ${{ matrix.node-version }})
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 15
       - run: |
           yarn
           yarn tsc
@@ -38,8 +36,20 @@ jobs:
           start: yarn start:test
           wait-on: http://localhost:3030
 
-      - name: Dependabot auto-approve
-        uses: hmarr/auto-approve-action@v2.0.0
+      - name: Auto merge
+        uses: actions/github-script@0.2.0
         if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         with:
+          script: |
+            github.pullRequests.createReview({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE'
+            })
+            github.pullRequests.merge({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number
+            })
           github-token: ${{ secrets.GITHUB_TOKEN }}

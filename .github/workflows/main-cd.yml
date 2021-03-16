@@ -2,23 +2,21 @@ name: saifbechan.github.io CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14, 15]
+  worker:
+    runs-on: ubuntu-20.04
+
     steps:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
 
       - name: Unit tests & Linters (Node ${{ matrix.node-version }})
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 15
       - run: |
           yarn
           yarn tsc
