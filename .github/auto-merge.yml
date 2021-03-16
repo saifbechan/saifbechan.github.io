@@ -1,0 +1,11 @@
+rules:
+  - requiredAuthor: dependabot
+    minApprovals:
+      NONE: 0
+  - minApprovals:
+      OWNER: 1
+mergeMethod: squash
+reportStatus: true
+deleteBranchAfterMerge: true
+blockingLabels:
+  - blocked
