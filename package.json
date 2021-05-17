@@ -63,7 +63,7 @@
     "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "sass": "^1.32.13",
-    "start-server-and-test": "^1.12.1",
+    "start-server-and-test": "^1.12.2",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "typescript": "^4.2.4",
