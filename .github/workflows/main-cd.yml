@@ -47,7 +47,7 @@ jobs:
           CLEAN: true
 
       - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v3
+        uses: treosh/lighthouse-ci-action@v7
         with:
           urls: |
             http://saifbechan.me
