@@ -46,10 +46,10 @@ jobs:
           FOLDER: out
           CLEAN: true
 
-      - uses: actions/checkout@v2
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v7
         with:
+          node-version: 14
           urls: |
             https://saifbechan.me
           uploadArtifacts: true
