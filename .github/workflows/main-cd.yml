@@ -50,6 +50,6 @@ jobs:
         uses: treosh/lighthouse-ci-action@v7
         with:
           urls: |
-            http://saifbechan.me
-          uploadArtifacts: true
-          temporaryPublicStorage: true
+            https://saifbechan.me
+          uploadArtifacts: false
+          temporaryPublicStorage: false
