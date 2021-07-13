@@ -10,5 +10,4 @@ module.exports = withPWA({
   options: {
     sourcemaps: 'production',
   },
-  future: { webpack5: true },
 });
