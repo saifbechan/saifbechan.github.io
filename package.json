@@ -22,7 +22,6 @@
     "clean": "rimraf out .next"
   },
   "dependencies": {
-    "hosted-git-info": "^4.0.2",
     "next": "11.0.1",
     "next-pwa": "^5.2.23",
     "react": "17.0.2",
