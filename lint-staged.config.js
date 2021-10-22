@@ -4,5 +4,5 @@ module.exports = {
     () => 'tsc --project cypress/tsconfig.json --pretty --noEmit',
   ],
   '**/*.(ts|js)?(x)': (filenames) => `yarn eslint ${filenames.join(' ')} --fix`,
-  '**/*.(scss)?(x)': (filenames) => `yarn stylelint ${filenames.join(' ')} --syntax scss --fix`,
+  '**/*.(scss)?(x)': (filenames) => `yarn stylelint ${filenames.join(' ')} --fix`,
 };

@@ -14,12 +14,13 @@
     "test:watch": "jest --watch",
     "tsc": "tsc --project tsconfig.json --pretty --noEmit",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "style": "stylelint **/*.scss --syntax scss",
+    "style": "stylelint **/*.scss",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "cy:test": "start-server-and-test start:test 3030 cy:run",
     "tsc:cypress": "tsc --project cypress/tsconfig.json --pretty --noEmit",
-    "clean": "rimraf out .next"
+    "clean": "rimraf out .next",
+    "prepare": "husky install"
   },
   "dependencies": {
     "next": "11.1.2",
