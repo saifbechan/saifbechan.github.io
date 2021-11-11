@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "now-build": "next build",
     "export": "next export",
     "start": "next start",
     "start:test": "next start -p 3030",

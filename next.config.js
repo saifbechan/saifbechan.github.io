@@ -10,4 +10,5 @@ module.exports = withPWA({
   options: {
     sourcemaps: 'production',
   },
+  target: 'serverless',
 });
