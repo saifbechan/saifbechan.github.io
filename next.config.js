@@ -1,14 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const withPWA = require('next-pwa');
+const withOffline = require('next-offline');
 
-module.exports = withPWA({
-  pwa: {
-    disable: process.env.NODE_ENV === 'development',
-    mode: 'production',
-    dest: 'public',
-  },
-  options: {
-    sourcemaps: 'production',
-  },
+const nextConfig = {
   target: 'serverless',
-});
+};
+
+module.exports = withOffline(nextConfig);
