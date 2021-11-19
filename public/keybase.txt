@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/saifbechan
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://saifbechan.me
+  * I am saifbechan (https://keybase.io/saifbechan) on keybase.
+  * I have a public key ASCnzciWgDk_Ev-hfySS2339vTG2u8LAyzbt4wLOH9LGxAo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120000bafa2804a492bab5a9a51f7e8b888c624c994410087bffd4234f4a31598b30a",
+      "host": "keybase.io",
+      "kid": "0120a7cdc89680393f12ffa17f2492db7dfdbd31b6bbc2c0cb36ede302ce1fd2c6c40a",
+      "uid": "d8705da19a030cf16fb0fcd398ef8619",
+      "username": "saifbechan"
+    },
+    "merkle_root": {
+      "ctime": 1637310363,
+      "hash": "dd73661c8b54d898204748cc839e887032b479a21383e194bc5089d18458678b31c5f831e28d12692f654abd7957240481123d62dd8e1cb0080b2caa36b438af",
+      "hash_meta": "7af599df07915b63b50f37123910241d790203410f135777f2583885b8b8ad9f",
+      "seqno": 21258637
+    },
+    "service": {
+      "entropy": "4FEl76KJEXWSpxbxc4Z1dhO0",
+      "hostname": "saifbechan.me",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.8.0"
+  },
+  "ctime": 1637310417,
+  "expire_in": 504576000,
+  "prev": "9ffc86e408d264407a6a6f926c91455f0ffa7c36a4a367035c20d6b9de2874cd",
+  "seqno": 16,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgp83IloA5PxL/oX8kktt9/b0xtrvCwMs27eMCzh/SxsQKp3BheWxvYWTESpcCEMQgn/yG5AjSZEB6am+SbJFFXw/6fDako2cDXCDWud4odM3EIOXQB6U4gVdYA2BbRlykTNnenCmJDTI8SjyvCxmFWS0/AgHCo3NpZ8RAt0j2d3QG3SGBfqmAcM7+wJrPS4+QcTbE0Nvavh+r7VDImAOA3t5f1pCrTaR/MuctCnyb6CKN8RnFzDnQzmnnCahzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIJgDH4nRnBfKqIv6rMcwnPZcWft93QogPI6nyExpsQhto3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/saifbechan
+
+==================================================================
