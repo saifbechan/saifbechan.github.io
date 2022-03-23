@@ -62,7 +62,7 @@
     "next-offline": "^5.0.5",
     "next-seo": "^4.28.1",
     "p5": "^1.4.1",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.0",
     "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "sass": "^1.49.7",
