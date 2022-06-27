@@ -6,7 +6,7 @@ module.exports = {
   },
   parserOptions: { ecmaVersion: 8 },
   ignorePatterns: ['node_modules/*', '.next/*', 'out/*', 'public/*', '!.prettierrc.js'],
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', 'next'],
   plugins: ['eslint-plugin-import-helpers'],
   overrides: [
     {

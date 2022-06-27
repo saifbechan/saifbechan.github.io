@@ -1,5 +1,6 @@
 import { faGithub, faLinkedin, IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 
 import styles from './contact.module.scss';
 
@@ -38,7 +39,9 @@ export default function Contact(): JSX.Element {
           </section>
         )
       )}
-      <img alt="Rocketeer" src="images/rocketeer.webp" />
+      <div className={styles.imagewrapper}>
+        <Image alt="Rocketeer" src="/images/rocketeer.webp" layout="fill" />
+      </div>
     </div>
   );
 }
